@@ -11,7 +11,7 @@ Writes the plan for the active create session and decides how implementation pro
 ## Steps
 
 1. Read `create/.current` to get the slug. If it is missing or the folder doesn't exist, tell the user to run `/create <title>` first and stop.
-2. Read `create/<slug>/log.md` (the full conversation so far) and any other documents in the session folder. Append this `/create-plan` invocation to the log (format in the `create` skill).
+2. Read `create/<slug>/log.md` (the full conversation so far) and any other documents in the session folder. Append this `/create-plan` invocation to the log (format in the `create` skill, including keeping the numbering of any questions or options).
 3. Look at the current repo structure so the plan fits what exists.
 4. Write `create/<slug>/plan.md` containing:
    - **Goal** - one short paragraph of the intent
@@ -27,6 +27,6 @@ Writes the plan for the active create session and decides how implementation pro
 
 ## During implementation
 
-Follow the chosen approach exactly. After each step or file, append to `log.md` what was done (files touched) and any deviations from `plan.md`. If you deviate or the user changes direction, log the decision and update `plan.md` if the change is material. Keep logging every user/Claude exchange as described in the `create` skill.
+Follow the chosen approach exactly. After each step or file, append to `log.md` what was done (files touched) and any deviations from `plan.md`. If you deviate or the user changes direction, log the decision and update `plan.md` if the change is material. Keep logging every user/Claude exchange as described in the `create` skill, including its rule to keep the numbering of questions and options so the user's answers by number stay matched to them.
 
 When the work is done, tell the user they can type `/create-complete`.

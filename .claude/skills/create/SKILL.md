@@ -37,6 +37,8 @@ After **every** turn of the session, append to `log.md` (use `date '+%Y-%m-%d %H
 <your reply, verbatim or faithfully condensed if very long>
 ```
 
+**Keep numbering in the log.** When you ask questions as a numbered (or lettered) list, the user often answers by number ("1: yes, 2: no"). Condense the text if you must, but keep every question's number or letter label exactly as shown to the user, so each answer in the log can be matched to its question. The same goes for numbered options and steps the user may refer to.
+
 Log the first exchange too (the `/create <title>` command and your opening question). Decisions about how to proceed (e.g. "implement everything", "file by file", step boundaries, steps completed) must be logged under a heading like `### [timestamp] Decision` so the progress trail is recoverable.
 
 If a later user message arrives in this session without a slash command (e.g. answers to your questions, instructions during implementation), keep logging it until `/create-complete` runs.

@@ -12,7 +12,7 @@ Finishes the active create session.
 
 1. Read `create/.current` to get the slug. If it is missing or the folder doesn't exist, tell the user there is no active create session and stop.
 2. Read `create/<slug>/log.md` and `create/<slug>/plan.md` (if present). Check the repo (`git status`, `git diff --stat`) to confirm what actually changed rather than trusting the plan alone.
-3. Append this `/create-complete` invocation to `log.md` (format in the `create` skill).
+3. Append this `/create-complete` invocation to `log.md` (format in the `create` skill, including keeping the numbering of any questions or options).
 4. Write `create/<slug>/summary.md`, clear and concise, with:
    - **Title and slug**, start and completion dates
    - **Overview** - what was created and why, in a short paragraph
