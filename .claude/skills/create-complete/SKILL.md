@@ -20,6 +20,10 @@ Finishes the active create session.
    - **Highlights** - key decisions, trade-offs, notable discussion points from the session
    - **Deviations from the plan** - if any
    - **Not done / follow-ups** - anything left open
-5. Append a final `### [timestamp] Decision` entry to `log.md`: "Session complete", then add a `- **Completed:** <timestamp>` line to the log header.
-6. Delete `create/.current` so no session is active.
-7. Tell the user the session is complete and link `summary.md`. Do not commit unless asked.
+5. **Harvest.** Review the finished output (summary, log, plan and the actual repo changes) and decide whether `CLAUDE.md` or `README.md` needs updating. This always runs; the outcome may be "no changes".
+   - Read both files first. Look for things a future session or contributor would need that the files don't already say: new or changed commands, workspaces or directory structure, conventions and tooling decisions, pinned versions and the reason, gotchas hit during the session, setup steps, or statements that are now stale or wrong.
+   - Apply the updates directly, keeping each file's existing style and brevity. `CLAUDE.md` holds instructions and conventions for working in the repo; `README.md` holds what the project is and how to set it up and use it. Don't duplicate what the code or git history already records, and don't record session-specific detail (that belongs in `summary.md`).
+   - Add a **Harvest** section to `summary.md` listing what was changed in each file and why, or stating that nothing needed updating. Run `pnpm format` if any file was edited.
+6. Append a final `### [timestamp] Decision` entry to `log.md`: "Session complete", then add a `- **Completed:** <timestamp>` line to the log header.
+7. Delete `create/.current` so no session is active.
+8. Tell the user the session is complete and link `summary.md`, noting any `CLAUDE.md` / `README.md` updates from the harvest. Do not commit unless asked.
