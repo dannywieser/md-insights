@@ -21,9 +21,10 @@ Writes the plan for the active create session and decides how implementation pro
    - **Files** - every file to create or modify, with a one-line purpose each
    - **Steps** - an ordered, numbered implementation sequence, each small enough to review
    - **Open questions / risks** - anything unresolved (ask the user before writing if it blocks the plan)
-5. Summarize the plan to the user in a few lines and point at `plan.md`. Let them request changes; revise `plan.md` and log each revision.
-6. Then ask how to proceed. Offer options such as: implement everything; step by step (pause after each numbered step); file by file; or a custom approach.
-7. Log the plan creation and the chosen approach as `### [timestamp] Decision` entries in `log.md`.
+5. Run `bash .claude/skills/create/scripts/set-status.sh <slug> planned` to mark the session in the `create/README.md` index.
+6. Summarize the plan to the user in a few lines and point at `plan.md`. Let them request changes; revise `plan.md` and log each revision.
+7. Then ask how to proceed. Offer options such as: implement everything; step by step (pause after each numbered step); file by file; or a custom approach.
+8. Log the plan creation and the chosen approach as `### [timestamp] Decision` entries in `log.md`.
 
 ## During implementation
 

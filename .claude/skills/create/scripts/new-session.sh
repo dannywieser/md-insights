@@ -39,4 +39,10 @@ cat > "$base/$slug/log.md" <<EOF
 ---
 EOF
 
+# add the session to the index in create/README.md (status starts as "review")
+readme="$base/README.md"
+if [ -f "$readme" ]; then
+  printf '| [%s](%s/) | %s | review | %s |\n' "$slug" "$slug" "$title" "$(date +%Y-%m-%d)" >> "$readme"
+fi
+
 printf '%s\n' "$slug"

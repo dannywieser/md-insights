@@ -18,10 +18,12 @@ A create session has three phases, each driven by the user typing a command:
 ## Steps
 
 1. If `$ARGUMENTS` is empty, ask the user for a title and stop.
-2. Run `bash .claude/skills/create/scripts/new-session.sh $ARGUMENTS`. It prints the slug (`YYYYMMDD-xx-<title>`), creates `create/<slug>/` with a `log.md` header, and records the slug in `create/.current`.
+2. Run `bash .claude/skills/create/scripts/new-session.sh $ARGUMENTS`. It prints the slug (`YYYYMMDD-xx-<title>`), creates `create/<slug>/` with a `log.md` header, adds the session to the index in `create/README.md` with status `review`, and records the slug in `create/.current`.
 3. Tell the user the slug and folder, then ask them to explain what they want to create in the repo.
 4. Facilitate a back-and-forth conversation about the specifics. Ask focused questions (a few at a time, not a wall), reflect back what you understand, surface trade-offs and open questions, and keep the discussion at the level of intent: what, why, scope, constraints, preferred technologies. Do not write implementation code or plan files in this phase. Reading the repo for context is fine.
 5. When the intent seems clear, say so briefly and tell the user they can type `/create-plan`.
+
+`create/README.md` explains the workflow and indexes all sessions. Statuses are `review` (set here), `planned` (set by `/create-plan`) and `complete` (set by `/create-complete`); change one with `bash .claude/skills/create/scripts/set-status.sh <slug> <status>`.
 
 ## Logging (applies to the whole session, all three phases)
 

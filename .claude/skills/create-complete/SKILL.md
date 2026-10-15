@@ -25,5 +25,5 @@ Finishes the active create session.
    - Apply the updates directly, keeping each file's existing style and brevity. `CLAUDE.md` holds instructions and conventions for working in the repo; `README.md` holds what the project is and how to set it up and use it. Don't duplicate what the code or git history already records, and don't record session-specific detail (that belongs in `summary.md`).
    - Add a **Harvest** section to `summary.md` listing what was changed in each file and why, or stating that nothing needed updating. Run `pnpm format` if any file was edited.
 6. Append a final `### [timestamp] Decision` entry to `log.md`: "Session complete", then add a `- **Completed:** <timestamp>` line to the log header.
-7. Delete `create/.current` so no session is active.
+7. Run `bash .claude/skills/create/scripts/set-status.sh <slug> complete` to mark the session in the `create/README.md` index, then delete `create/.current` so no session is active.
 8. Tell the user the session is complete and link `summary.md`, noting any `CLAUDE.md` / `README.md` updates from the harvest. Do not commit unless asked.
