@@ -82,3 +82,21 @@ go ahead and commit this checkpoint
 
 ### [2026-10-15 07:58:06] Claude
 Committing guidelines section, lowercase text and square edges as a checkpoint.
+
+### [2026-10-15 08:00:18] User
+button: update the keyboard focus state to be straight black for high contrast. how many pixels wide is the border now?
+
+### [2026-10-15 08:00:18] Claude
+Focus state was a 3px box-shadow ring in --ring (blue) at 50% opacity plus a ring-colored border. Changed packages/ui button.tsx to focus-visible:border-black + ring-[3px] ring-black, and removed the destructive variant's focus ring overrides so all variants match. Verified computed: 3px rgb(0,0,0) ring. Flagged: black ring is nearly invisible on the dark theme background. Not committed.
+
+### [2026-10-15 08:02:31] User
+oh yes, keep base3 in dark mode
+
+### [2026-10-15 08:02:31] Claude
+Added dark:focus-visible:border-sol-base3 and dark:focus-visible:ring-sol-base3 to button.tsx. Verified in browser via real Tab key: 3px base3 ring in dark mode (black in light). format/lint/typecheck/test pass. Not committed.
+
+### [2026-10-15 08:02:38] User
+commit this as a checkpoint
+
+### [2026-10-15 08:02:38] Claude
+Committing the high-contrast button focus ring as a checkpoint.
