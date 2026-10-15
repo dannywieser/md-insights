@@ -1,0 +1,32 @@
+---
+name: create-plan
+description: Turn the intent discussed in the current /create session into plan.md, then ask how to proceed with implementation.
+disable-model-invocation: true
+---
+
+# /create-plan
+
+Writes the plan for the active create session and decides how implementation proceeds.
+
+## Steps
+
+1. Read `create/.current` to get the slug. If it is missing or the folder doesn't exist, tell the user to run `/create <title>` first and stop.
+2. Read `create/<slug>/log.md` (the full conversation so far) and any other documents in the session folder. Append this `/create-plan` invocation to the log (format in the `create` skill).
+3. Look at the current repo structure so the plan fits what exists.
+4. Write `create/<slug>/plan.md` containing:
+   - **Goal** - one short paragraph of the intent
+   - **Scope** - what is in and explicitly out
+   - **Technologies** - languages, frameworks, libraries, tools, and why
+   - **Repository structure** - the directory tree to be created or changed
+   - **Files** - every file to create or modify, with a one-line purpose each
+   - **Steps** - an ordered, numbered implementation sequence, each small enough to review
+   - **Open questions / risks** - anything unresolved (ask the user before writing if it blocks the plan)
+5. Summarize the plan to the user in a few lines and point at `plan.md`. Let them request changes; revise `plan.md` and log each revision.
+6. Then ask how to proceed. Offer options such as: implement everything; step by step (pause after each numbered step); file by file; or a custom approach.
+7. Log the plan creation and the chosen approach as `### [timestamp] Decision` entries in `log.md`.
+
+## During implementation
+
+Follow the chosen approach exactly. After each step or file, append to `log.md` what was done (files touched) and any deviations from `plan.md`. If you deviate or the user changes direction, log the decision and update `plan.md` if the change is material. Keep logging every user/Claude exchange as described in the `create` skill.
+
+When the work is done, tell the user they can type `/create-complete`.

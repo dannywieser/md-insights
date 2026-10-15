@@ -1,0 +1,42 @@
+---
+name: create
+description: Start a "create" session - a tracked, conversational design discussion about something to build in this repo. Invoke as /create <title>.
+argument-hint: <title>
+disable-model-invocation: true
+---
+
+# /create
+
+Starts a create session for: **$ARGUMENTS**
+
+A create session has three phases, each driven by the user typing a command:
+
+1. `/create <title>` - discuss and clarify the intent (this skill)
+2. `/create-plan` - write `plan.md`, then decide how to implement
+3. `/create-complete` - write `summary.md` and close the session
+
+## Steps
+
+1. If `$ARGUMENTS` is empty, ask the user for a title and stop.
+2. Run `bash .claude/skills/create/scripts/new-session.sh $ARGUMENTS`. It prints the slug (`YYYYMMDD-xx-<title>`), creates `create/<slug>/` with a `log.md` header, and records the slug in `create/.current`.
+3. Tell the user the slug and folder, then ask them to explain what they want to create in the repo.
+4. Facilitate a back-and-forth conversation about the specifics. Ask focused questions (a few at a time, not a wall), reflect back what you understand, surface trade-offs and open questions, and keep the discussion at the level of intent: what, why, scope, constraints, preferred technologies. Do not write implementation code or plan files in this phase. Reading the repo for context is fine.
+5. When the intent seems clear, say so briefly and tell the user they can type `/create-plan`.
+
+## Logging (applies to the whole session, all three phases)
+
+The full conversation is preserved in `create/<slug>/log.md`. The active slug is in `create/.current`.
+
+After **every** turn of the session, append to `log.md` (use `date '+%Y-%m-%d %H:%M:%S'` for the timestamp):
+
+```markdown
+### [2026-10-15 14:03:22] User
+<the user's message, verbatim>
+
+### [2026-10-15 14:03:41] Claude
+<your reply, verbatim or faithfully condensed if very long>
+```
+
+Log the first exchange too (the `/create <title>` command and your opening question). Decisions about how to proceed (e.g. "implement everything", "file by file", step boundaries, steps completed) must be logged under a heading like `### [timestamp] Decision` so the progress trail is recoverable.
+
+If a later user message arrives in this session without a slash command (e.g. answers to your questions, instructions during implementation), keep logging it until `/create-complete` runs.
