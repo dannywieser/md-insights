@@ -100,3 +100,27 @@ commit this as a checkpoint
 
 ### [2026-10-15 08:02:38] Claude
 Committing the high-contrast button focus ring as a checkpoint.
+
+### [2026-10-15 08:05:55] User
+for the card: light mode pure white background (suggest best match for dark); heavy black shadow (at least 3px) for both; add cropmarks
+
+### [2026-10-15 08:05:55] Claude
+Light --card #ffffff; dark kept at base02 (recommended: a pure black card would swallow the black shadow, base02 is the lightest dark surface so the shadow still reads against base03). Added --shadow-hard (4px 4px 0 0 #000) and a crop-marks utility (8px ticks, 8px gap, drawn with ::before gradients in --foreground) in packages/ui globals.css; Card now uses relative + shadow-hard + crop-marks instead of shadow-sm. Added a "cards" guideline. Verified both themes in browser; format/lint/typecheck/test pass. Not committed.
+
+### [2026-10-15 08:08:02] User
+make the cropmarks a right angle instead of the 2 lines
+
+### [2026-10-15 08:08:02] Claude
+Replaced the two separate ticks per corner with one right-angle bracket per corner: vertex 8px diagonally outside the card corner, legs 16px running along the edges (crop-marks utility in packages/ui globals.css, ::before inset -8px). Updated the cards guideline wording. Verified in browser; format/lint/test pass. Not committed.
+
+### [2026-10-15 08:08:54] User
+slightly shorter lines and move them away from the card a bit more
+
+### [2026-10-15 08:08:54] Claude
+Crop mark legs 16px -> 12px and offset from card corner 8px -> 12px (inset -12px) in packages/ui globals.css. Verified in browser; lint/test pass. Not committed.
+
+### [2026-10-15 08:10:02] User
+this looks good as a checkpoint
+
+### [2026-10-15 08:10:02] Claude
+Committing the card styling (white/base02 background, hard shadow, right-angle crop marks) as a checkpoint.

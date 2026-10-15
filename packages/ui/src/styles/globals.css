@@ -26,7 +26,7 @@
 
   --background: var(--sol-base3);
   --foreground: var(--sol-base01);
-  --card: var(--sol-base3);
+  --card: #ffffff;
   --card-foreground: var(--sol-base01);
   --popover: var(--sol-base3);
   --popover-foreground: var(--sol-base01);
@@ -67,6 +67,8 @@
 }
 
 @theme inline {
+  --shadow-hard: 4px 4px 0 0 #000;
+
   --font-sans: 'Space Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
   --font-mono: 'Space Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
 
@@ -109,6 +111,25 @@
   --radius-md: var(--radius);
   --radius-lg: var(--radius);
   --radius-xl: var(--radius);
+}
+
+/* crop marks: a right angle bracket 12px outside each corner, its legs running 12px along the edges. */
+@utility crop-marks {
+  &::before {
+    content: '';
+    position: absolute;
+    inset: -12px;
+    pointer-events: none;
+    background:
+      linear-gradient(var(--foreground), var(--foreground)) left 0 top 0 / 12px 1px no-repeat,
+      linear-gradient(var(--foreground), var(--foreground)) left 0 top 0 / 1px 12px no-repeat,
+      linear-gradient(var(--foreground), var(--foreground)) right 0 top 0 / 12px 1px no-repeat,
+      linear-gradient(var(--foreground), var(--foreground)) right 0 top 0 / 1px 12px no-repeat,
+      linear-gradient(var(--foreground), var(--foreground)) left 0 bottom 0 / 12px 1px no-repeat,
+      linear-gradient(var(--foreground), var(--foreground)) left 0 bottom 0 / 1px 12px no-repeat,
+      linear-gradient(var(--foreground), var(--foreground)) right 0 bottom 0 / 12px 1px no-repeat,
+      linear-gradient(var(--foreground), var(--foreground)) right 0 bottom 0 / 1px 12px no-repeat;
+  }
 }
 
 @layer base {

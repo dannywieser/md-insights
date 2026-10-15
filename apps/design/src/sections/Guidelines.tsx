@@ -11,6 +11,11 @@ const guidelines = [
     rule: 'no rounded corners on any component. every radius token resolves to zero, so new components inherit square edges automatically.',
     example: 'buttons, cards, inputs, badges: all square',
   },
+  {
+    name: 'cards',
+    rule: 'cards are pure white in light mode and base02 in dark mode, with a hard 4px black shadow in both and right angle crop marks at the corners.',
+    example: 'white card · 4px black shadow · crop marks',
+  },
 ]
 
 export function Guidelines() {
