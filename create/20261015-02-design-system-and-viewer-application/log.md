@@ -184,3 +184,15 @@ yes, commit
 
 ### [2026-10-15 08:21:48] Claude
 Committing grid paper, card sections, shared app header, lowercase web text and 16px grid as a checkpoint.
+
+### [2026-10-15 08:24:11] User
+just what seems like a glitch - in the components section on dark mode, the app header component preview loses the minor grid lines. fine in light mode
+
+### [2026-10-15 08:24:11] Claude
+Cause: the demo's bg-grid div sat on a card (base02) and dark --grid-line is base02, so minor lines vanished against the card. Added bg-background to the demo div in Components.tsx and to the same sample in Grid.tsx so they show the page surface. Verified in dark browser; lint/test pass. Not committed.
+
+### [2026-10-15 08:24:47] User
+commit
+
+### [2026-10-15 08:24:47] Claude
+Committing the dark mode grid preview fix.
