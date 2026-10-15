@@ -1,0 +1,10 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "types": ["vitest/globals"],
+    "paths": {
+      "@md-insights/ui/*": ["./src/*"]
+    }
+  },
+  "include": ["src", "tests"]
+}

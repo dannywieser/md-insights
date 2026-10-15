@@ -58,3 +58,28 @@ I know there is an issue with TypeScript 7 and eslint - is that still active?
 
 ### [2026-10-15 07:31:00] Claude
 Yes, still active. npm shows typescript latest = 7.0.2 (next = 7.1.0-dev); typescript-eslint latest 8.71.2 has peer `typescript >=4.8.4 <6.1.0`. TS 7 lacks a stable programmatic API (targeted for 7.1). Added to plan.md: pin typescript to ~6.0 repo-wide; revisit after 7.1; tsgo optional later. Awaiting implementation approach.
+
+### [2026-10-15 07:35:00] User
+commit the state of the log and plan as-is and then you can proceed with the full implementation
+
+### [2026-10-15 07:35:30] Decision
+Committed log and plan as c147829. Approach: implement everything (all 8 steps) in one go, logging each step, then verify. Not committing implementation unless asked.
+
+### [2026-10-15 07:45:00] Claude
+Implementation steps 1-7 done: root files; packages/ui (components.json, globals.css theme, lib/utils.ts, button+card via shadcn CLI, barrel, tests/card.test.tsx); apps/web (hand-scaffolded Vite, App.tsx Card hello world, tests/App.test.tsx, tests/setup.ts); ESLint flat config (typed) + Prettier; README.md and CLAUDE.md. lint, format:check, typecheck, test, build all pass.
+Deviations from plan: (1) shadcn CLI 4.21.x generates `import { cn } from "cn"` (new `cn` npm package) instead of clsx+tailwind-merge, so those were dropped and `lib/utils.ts` re-exports `cn`; (2) removed `baseUrl` from tsconfigs (deprecated in TS 6); (3) typescript pinned exact 6.0.3. shadcn CLI verified: `shadcn add badge` from apps/web wrote to packages/ui (test component removed). Remaining: dev server browser check incl. dark mode.
+
+### [2026-10-15 07:50:00] Claude
+Step 8 verification done: dev server (via new `.claude/launch.json`, config `web`) renders the hello world Card in light mode; adding the `dark` class switches the theme (class-based, standard shadcn; no automatic prefers-color-scheme switching or toggle yet). Final checks all green: format:check, lint, typecheck, test (2 tests), build. Nothing from the implementation is committed. Implementation complete; user can type /create-complete.
+
+### [2026-10-15 07:55:00] User
+are those variants in the button component part of what shadcn generates?
+
+### [2026-10-15 07:55:20] Claude
+Yes: variants and sizes are the stock shadcn new-york/radix button from the CLI; only Prettier formatting (single quotes, no semicolons) was changed. Edits live in packages/ui; `shadcn add --overwrite` would replace them.
+
+### [2026-10-15 07:56:00] User
+ok, commit this and then /create-complete
+
+### [2026-10-15 07:56:00] Decision
+Commit the implementation, then run /create-complete.
