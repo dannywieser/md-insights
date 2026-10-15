@@ -2,7 +2,7 @@
 
 A homelab project that loads markdown notes (a folder of `.md` files or a Bear database) into a cache so their content, relationships and structure can be analyzed.
 
-Currently a bootstrap: a pnpm monorepo with a hello world web app and a shared UI package.
+Currently a bootstrap: a pnpm monorepo with a hello world web app, a design viewer app and a shared UI package.
 
 ## Prerequisites
 
@@ -13,7 +13,8 @@ Currently a bootstrap: a pnpm monorepo with a hello world web app and a shared U
 
 ```bash
 pnpm install
-pnpm dev
+pnpm dev          # web app on http://localhost:5173
+pnpm dev:design   # design viewer on http://localhost:5174
 ```
 
 ## Commands
@@ -43,7 +44,7 @@ Each workspace keeps its tests in a `tests/` folder beside `src/`. New apps go i
 
 ## Shared UI package
 
-`@md-insights/ui` ships TypeScript source with no build step; each consuming Vite app compiles it. The theme (light and dark CSS variables) lives in `packages/ui/src/styles/globals.css`.
+`@md-insights/ui` ships TypeScript source with no build step; each consuming Vite app compiles it. The theme (Solarized light and dark CSS variables, Space Mono, square edges, grid paper background) lives in `packages/ui/src/styles/globals.css`. `apps/design` is a design board that displays the theme tokens, shared components and the design guidelines; it holds no tokens of its own.
 
 An app consumes it by:
 
