@@ -1,4 +1,5 @@
 import {
+  AppHeader,
   Button,
   Card,
   CardContent,
@@ -31,6 +32,13 @@ export function Components() {
           </Button>
         ))}
         <Button disabled>disabled</Button>
+      </div>
+      <h3 className="text-sm font-bold">app header</h3>
+      <div className="border">
+        <AppHeader title="md-insights" className="static">
+          <Button size="sm">action</Button>
+        </AppHeader>
+        <div className="bg-grid h-24" />
       </div>
       <h3 className="text-sm font-bold">card</h3>
       <Card className="max-w-sm">

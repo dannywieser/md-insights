@@ -43,6 +43,10 @@
   --input: color-mix(in srgb, var(--sol-base1) 40%, transparent);
   --ring: var(--sol-blue);
   --radius: 0;
+
+  --grid-size: 16px;
+  --grid-line: color-mix(in srgb, var(--sol-base1) 25%, transparent);
+  --grid-line-major: color-mix(in srgb, var(--sol-base1) 45%, transparent);
 }
 
 .dark {
@@ -64,6 +68,9 @@
   --border: color-mix(in srgb, var(--sol-base01) 60%, transparent);
   --input: color-mix(in srgb, var(--sol-base01) 60%, transparent);
   --ring: var(--sol-blue);
+
+  --grid-line: var(--sol-base02);
+  --grid-line-major: color-mix(in srgb, var(--sol-base01) 35%, transparent);
 }
 
 @theme inline {
@@ -132,11 +139,25 @@
   }
 }
 
+/* grid paper: 1px minor lines every --grid-size, stronger major lines every 5th. */
+@utility bg-grid {
+  background-image:
+    linear-gradient(var(--grid-line-major) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid-line-major) 1px, transparent 1px),
+    linear-gradient(var(--grid-line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
+  background-size:
+    calc(var(--grid-size) * 5) calc(var(--grid-size) * 5),
+    calc(var(--grid-size) * 5) calc(var(--grid-size) * 5),
+    var(--grid-size) var(--grid-size),
+    var(--grid-size) var(--grid-size);
+}
+
 @layer base {
   * {
     @apply border-border outline-ring/50;
   }
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background bg-grid text-foreground;
   }
 }

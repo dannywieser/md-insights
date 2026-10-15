@@ -1,5 +1,6 @@
-import { Button } from '@md-insights/ui'
+import { AppHeader, Button } from '@md-insights/ui'
 import { Components } from './sections/Components'
+import { Grid } from './sections/Grid'
 import { Guidelines } from './sections/Guidelines'
 import { Palette } from './sections/Palette'
 import { Spacing } from './sections/Spacing'
@@ -11,17 +12,17 @@ export function App() {
 
   return (
     <div className="min-h-screen">
-      <header className="sticky top-0 z-10 flex items-center justify-between border-b bg-background px-6 py-3">
-        <h1 className="text-lg font-bold">md-insights design</h1>
+      <AppHeader title="md-insights design">
         <Button variant="outline" size="sm" onClick={toggle}>
           {theme === 'dark' ? 'switch to light' : 'switch to dark'}
         </Button>
-      </header>
-      <main className="mx-auto max-w-5xl space-y-12 p-6">
+      </AppHeader>
+      <main className="mx-auto max-w-5xl space-y-16 p-8">
         <Guidelines />
         <Palette />
         <Typography />
         <Spacing />
+        <Grid />
         <Components />
       </main>
     </div>

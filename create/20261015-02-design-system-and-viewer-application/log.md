@@ -148,3 +148,39 @@ this looks good, commit
 
 ### [2026-10-15 08:13:28] Claude
 Committing orange primary, deeper destructive and the removed dark opacity as a checkpoint.
+
+### [2026-10-15 08:14:35] User
+I want the app theme to have a background which appears like grid paper. can you propose a structure for that using the design board
+
+### [2026-10-15 08:14:35] Claude
+Proposed (no code yet): --grid-size/--grid-line/--grid-line-major tokens per theme in packages/ui globals.css; a bg-grid @utility (layered 1px linear-gradients, minor every 24px, major every 5th) applied to body so all apps inherit; header made transparent; a "grid" board section showing live minor/major swatches plus a "grid paper" guideline card. Open questions: cell size (16 vs 24px), major lines on/off, line contrast in dark. Asked whether to implement.
+
+### [2026-10-15 08:16:09] User
+this sounds good in general - let's try it
+
+### [2026-10-15 08:16:09] Claude
+Implemented grid paper with my default picks (24px cell, major every 5th, faint in dark). packages/ui globals.css: --grid-size/--grid-line/--grid-line-major per theme, bg-grid @utility, applied to body via @apply. apps/design: new sections/Grid.tsx (10x10 cell live swatch + token list), "grid paper" guideline card, header no longer sticky or opaque (it would cut through the grid), test heading list includes grid. Viewed light and dark; format/lint/typecheck/test pass. Not committed.
+
+### [2026-10-15 08:19:32] User
+a couple things to clean this up: move all the sections of the board onto individual cards so the lines aren't disrupting the text; create an app header component shared between the viewer app and the web app - above the grid background with pure white background (base02 for dark)
+
+### [2026-10-15 08:19:32] Claude
+Board: Section.tsx now wraps every section in a Card (h2 in CardHeader, content in CardContent); main spacing space-y-16 p-8 to leave room for crop marks; guideline items inside use bg-muted square boxes. Header: new packages/ui/src/components/app-header.tsx (AppHeader: title prop + children actions slot; sticky, bg-card so white light / base02 dark, border-b), exported from the ui index, tested in packages/ui/tests/app-header.test.tsx. Used in apps/design (with theme toggle) and apps/web (title only; layout now flex column), plus an "app header" demo in the components section (className static). Web test updated to assert banner + hello world (title now appears twice). Viewed design (light/dark) and web in browser. format/lint/typecheck/test pass. Not committed. Note: web app text is not lowercase yet ("Hello, world!", card description).
+
+### [2026-10-15 08:20:44] User
+make that text lowercase
+
+### [2026-10-15 08:20:44] Claude
+Lowercased apps/web App.tsx text ("hello, world!" and the card description) and updated the web test. lint/test pass. Not committed.
+
+### [2026-10-15 08:21:21] User
+let's try a smaller grid size default first - start iwth 16
+
+### [2026-10-15 08:21:21] Claude
+Set --grid-size to 16px (packages/ui globals.css) and updated the grid paper guideline text to 16px. Viewed in browser; lint/test pass. Not committed.
+
+### [2026-10-15 08:21:48] User
+yes, commit
+
+### [2026-10-15 08:21:48] Claude
+Committing grid paper, card sections, shared app header, lowercase web text and 16px grid as a checkpoint.

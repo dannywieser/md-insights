@@ -16,6 +16,11 @@ const guidelines = [
     rule: 'cards are pure white in light mode and base02 in dark mode, with a hard 4px black shadow in both and right angle crop marks at the corners.',
     example: 'white card · 4px black shadow · crop marks',
   },
+  {
+    name: 'grid paper',
+    rule: 'the page background is grid paper: a 16px cell with a stronger line every 5th cell. layouts and spacing snap to the grid where they can.',
+    example: '16px cell · major every 5th · set by --grid-size',
+  },
 ]
 
 export function Guidelines() {
@@ -26,10 +31,10 @@ export function Guidelines() {
     >
       <div className="grid gap-4 sm:grid-cols-2">
         {guidelines.map(({ name, rule, example }) => (
-          <div key={name} className="space-y-2 rounded-lg border bg-card p-4 text-card-foreground">
+          <div key={name} className="space-y-2 border bg-muted p-4">
             <h3 className="text-sm font-bold">{name}</h3>
             <p className="text-sm text-muted-foreground">{rule}</p>
-            <p className="rounded-md bg-muted px-3 py-2 text-sm">{example}</p>
+            <p className="bg-card px-3 py-2 text-sm">{example}</p>
           </div>
         ))}
       </div>

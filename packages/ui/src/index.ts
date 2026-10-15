@@ -9,3 +9,4 @@ export {
   CardContent,
   CardFooter,
 } from './components/card'
+export { AppHeader } from './components/app-header'

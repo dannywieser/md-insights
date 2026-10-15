@@ -1,4 +1,5 @@
 import type { ReactNode } from 'react'
+import { Card, CardContent, CardDescription, CardHeader } from '@md-insights/ui'
 
 export function Section({
   title,
@@ -10,12 +11,12 @@ export function Section({
   children: ReactNode
 }) {
   return (
-    <section className="space-y-4">
-      <div>
+    <Card>
+      <CardHeader>
         <h2 className="text-xl font-bold">{title}</h2>
-        {description && <p className="text-sm text-muted-foreground">{description}</p>}
-      </div>
-      {children}
-    </section>
+        {description && <CardDescription>{description}</CardDescription>}
+      </CardHeader>
+      <CardContent className="space-y-4">{children}</CardContent>
+    </Card>
   )
 }

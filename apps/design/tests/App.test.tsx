@@ -21,7 +21,7 @@ describe('App', () => {
   it('renders every section of the design board', () => {
     render(<App />)
 
-    for (const name of ['guidelines', 'color', 'typography', 'spacing', 'components']) {
+    for (const name of ['guidelines', 'color', 'typography', 'spacing', 'grid', 'components']) {
       expect(screen.getByRole('heading', { level: 2, name })).toBeInTheDocument()
     }
   })
