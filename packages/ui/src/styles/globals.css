@@ -1,52 +1,92 @@
 @import 'tailwindcss';
 @import 'tw-animate-css';
+@import '@fontsource/space-mono/400.css';
+@import '@fontsource/space-mono/700.css';
 
 @custom-variant dark (&:is(.dark *));
 
+/* Solarized by Ethan Schoonover: https://ethanschoonover.com/solarized/ */
 :root {
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.145 0 0);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.145 0 0);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.145 0 0);
-  --primary: oklch(0.205 0 0);
-  --primary-foreground: oklch(0.985 0 0);
-  --secondary: oklch(0.97 0 0);
-  --secondary-foreground: oklch(0.205 0 0);
-  --muted: oklch(0.97 0 0);
-  --muted-foreground: oklch(0.556 0 0);
-  --accent: oklch(0.97 0 0);
-  --accent-foreground: oklch(0.205 0 0);
-  --destructive: oklch(0.577 0.245 27.325);
-  --border: oklch(0.922 0 0);
-  --input: oklch(0.922 0 0);
-  --ring: oklch(0.708 0 0);
-  --radius: 0.625rem;
+  --sol-base03: #002b36;
+  --sol-base02: #073642;
+  --sol-base01: #586e75;
+  --sol-base00: #657b83;
+  --sol-base0: #839496;
+  --sol-base1: #93a1a1;
+  --sol-base2: #eee8d5;
+  --sol-base3: #fdf6e3;
+  --sol-yellow: #b58900;
+  --sol-orange: #cb4b16;
+  --sol-red: #dc322f;
+  --sol-magenta: #d33682;
+  --sol-violet: #6c71c4;
+  --sol-blue: #268bd2;
+  --sol-cyan: #2aa198;
+  --sol-green: #859900;
+
+  --background: var(--sol-base3);
+  --foreground: var(--sol-base01);
+  --card: var(--sol-base3);
+  --card-foreground: var(--sol-base01);
+  --popover: var(--sol-base3);
+  --popover-foreground: var(--sol-base01);
+  --primary: var(--sol-blue);
+  --primary-foreground: var(--sol-base3);
+  --secondary: var(--sol-base2);
+  --secondary-foreground: var(--sol-base01);
+  --muted: var(--sol-base2);
+  --muted-foreground: var(--sol-base00);
+  --accent: var(--sol-base2);
+  --accent-foreground: var(--sol-base01);
+  --destructive: var(--sol-red);
+  --border: color-mix(in srgb, var(--sol-base1) 40%, transparent);
+  --input: color-mix(in srgb, var(--sol-base1) 40%, transparent);
+  --ring: var(--sol-blue);
+  --radius: 0.5rem;
 }
 
 .dark {
-  --background: oklch(0.145 0 0);
-  --foreground: oklch(0.985 0 0);
-  --card: oklch(0.205 0 0);
-  --card-foreground: oklch(0.985 0 0);
-  --popover: oklch(0.205 0 0);
-  --popover-foreground: oklch(0.985 0 0);
-  --primary: oklch(0.922 0 0);
-  --primary-foreground: oklch(0.205 0 0);
-  --secondary: oklch(0.269 0 0);
-  --secondary-foreground: oklch(0.985 0 0);
-  --muted: oklch(0.269 0 0);
-  --muted-foreground: oklch(0.708 0 0);
-  --accent: oklch(0.269 0 0);
-  --accent-foreground: oklch(0.985 0 0);
-  --destructive: oklch(0.704 0.191 22.216);
-  --border: oklch(1 0 0 / 10%);
-  --input: oklch(1 0 0 / 15%);
-  --ring: oklch(0.556 0 0);
+  --background: var(--sol-base03);
+  --foreground: var(--sol-base0);
+  --card: var(--sol-base02);
+  --card-foreground: var(--sol-base0);
+  --popover: var(--sol-base02);
+  --popover-foreground: var(--sol-base0);
+  --primary: var(--sol-blue);
+  --primary-foreground: var(--sol-base03);
+  --secondary: var(--sol-base02);
+  --secondary-foreground: var(--sol-base0);
+  --muted: var(--sol-base02);
+  --muted-foreground: var(--sol-base00);
+  --accent: var(--sol-base02);
+  --accent-foreground: var(--sol-base1);
+  --destructive: var(--sol-red);
+  --border: color-mix(in srgb, var(--sol-base01) 60%, transparent);
+  --input: color-mix(in srgb, var(--sol-base01) 60%, transparent);
+  --ring: var(--sol-blue);
 }
 
 @theme inline {
+  --font-sans: 'Space Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+  --font-mono: 'Space Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+
+  --color-sol-base03: var(--sol-base03);
+  --color-sol-base02: var(--sol-base02);
+  --color-sol-base01: var(--sol-base01);
+  --color-sol-base00: var(--sol-base00);
+  --color-sol-base0: var(--sol-base0);
+  --color-sol-base1: var(--sol-base1);
+  --color-sol-base2: var(--sol-base2);
+  --color-sol-base3: var(--sol-base3);
+  --color-sol-yellow: var(--sol-yellow);
+  --color-sol-orange: var(--sol-orange);
+  --color-sol-red: var(--sol-red);
+  --color-sol-magenta: var(--sol-magenta);
+  --color-sol-violet: var(--sol-violet);
+  --color-sol-blue: var(--sol-blue);
+  --color-sol-cyan: var(--sol-cyan);
+  --color-sol-green: var(--sol-green);
+
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-card: var(--card);

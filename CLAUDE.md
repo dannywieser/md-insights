@@ -6,7 +6,8 @@ Homelab TypeScript/Node project: loads markdown notes (a folder of `.md` files o
 
 Run from the repo root with pnpm:
 
-- `pnpm dev` - web app dev server
+- `pnpm dev` - web app dev server (port 5173)
+- `pnpm dev:design` - design viewer dev server (port 5174)
 - `pnpm build` / `pnpm typecheck` / `pnpm test` - run across all workspaces
 - `pnpm lint` - ESLint with typed rules
 - `pnpm format` / `pnpm format:check` - Prettier
@@ -16,7 +17,8 @@ Before finishing a change, run `pnpm format`, `pnpm lint`, `pnpm typecheck` and 
 ## Structure
 
 - `apps/web` - React + Vite app (`@md-insights/web`)
-- `packages/ui` - shared shadcn components, Tailwind v4 theme and `cn` helper (`@md-insights/ui`); exports TypeScript source, no build step
+- `apps/design` - design-board viewer for the theme tokens and shared components (`@md-insights/design`); display only, tokens live in `packages/ui`
+- `packages/ui` - shared shadcn components, Solarized light/dark Tailwind v4 theme (Space Mono via `@fontsource`) and `cn` helper (`@md-insights/ui`); exports TypeScript source, no build step
 - `create/` - logs and plans from `/create` sessions
 
 New apps go in `apps/*`, shared code in `packages/*`.

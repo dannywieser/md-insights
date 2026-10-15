@@ -23,6 +23,7 @@ Run from the repo root.
 | Command             | Description                          |
 | ------------------- | ------------------------------------ |
 | `pnpm dev`          | Start the web app dev server         |
+| `pnpm dev:design`   | Start the design viewer (port 5174)  |
 | `pnpm build`        | Typecheck and build every workspace  |
 | `pnpm typecheck`    | Run `tsc` in every workspace         |
 | `pnpm test`         | Run Vitest in every workspace        |
@@ -34,6 +35,7 @@ Run from the repo root.
 
 ```
 apps/web/        React + Vite web app
+apps/design/     Design-board viewer for the theme and shared components
 packages/ui/     @md-insights/ui: shared shadcn components, theme and styles
 ```
 
