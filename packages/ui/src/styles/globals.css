@@ -30,7 +30,7 @@
   --card-foreground: var(--sol-base01);
   --popover: var(--sol-base3);
   --popover-foreground: var(--sol-base01);
-  --primary: var(--sol-blue);
+  --primary: var(--sol-orange);
   --primary-foreground: var(--sol-base3);
   --secondary: var(--sol-base2);
   --secondary-foreground: var(--sol-base01);
@@ -38,7 +38,7 @@
   --muted-foreground: var(--sol-base00);
   --accent: var(--sol-base2);
   --accent-foreground: var(--sol-base01);
-  --destructive: var(--sol-red);
+  --destructive: color-mix(in srgb, var(--sol-red) 70%, black);
   --border: color-mix(in srgb, var(--sol-base1) 40%, transparent);
   --input: color-mix(in srgb, var(--sol-base1) 40%, transparent);
   --ring: var(--sol-blue);
@@ -52,15 +52,15 @@
   --card-foreground: var(--sol-base0);
   --popover: var(--sol-base02);
   --popover-foreground: var(--sol-base0);
-  --primary: var(--sol-blue);
-  --primary-foreground: var(--sol-base03);
+  --primary: var(--sol-orange);
+  --primary-foreground: var(--sol-base3);
   --secondary: var(--sol-base02);
   --secondary-foreground: var(--sol-base0);
   --muted: var(--sol-base02);
   --muted-foreground: var(--sol-base00);
   --accent: var(--sol-base02);
   --accent-foreground: var(--sol-base1);
-  --destructive: var(--sol-red);
+  --destructive: color-mix(in srgb, var(--sol-red) 70%, black);
   --border: color-mix(in srgb, var(--sol-base01) 60%, transparent);
   --input: color-mix(in srgb, var(--sol-base01) 60%, transparent);
   --ring: var(--sol-blue);

@@ -124,3 +124,27 @@ this looks good as a checkpoint
 
 ### [2026-10-15 08:10:02] Claude
 Committing the card styling (white/base02 background, hard shadow, right-angle crop marks) as a checkpoint.
+
+### [2026-10-15 08:11:10] User
+let's see what it looks like with --sol-orange as the primary button color
+
+### [2026-10-15 08:11:10] Claude
+Set --primary to --sol-orange in light and dark (packages/ui globals.css), and --primary-foreground to base3 in both (base03 on orange was ~2.9:1, base3 ~4.9:1). Viewed both themes in browser. Experiment, not committed. Notes: red destructive and orange primary are close in hue; ring and links follow --primary/--ring (ring is still blue).
+
+### [2026-10-15 08:12:08] User
+make destructive deeper
+
+### [2026-10-15 08:12:08] Claude
+Set --destructive to color-mix(in srgb, var(--sol-red) 70%, black) in both themes (packages/ui globals.css), roughly #9a2523. Viewed both themes. Noted: button.tsx's dark:bg-destructive/60 makes the dark button muddy with the deeper red. Orange primary and deeper destructive are uncommitted experiments.
+
+### [2026-10-15 08:13:12] User
+try removing that opacity
+
+### [2026-10-15 08:13:12] Claude
+Removed dark:bg-destructive/60 from the destructive variant in packages/ui button.tsx; the dark button now uses the full deeper red. Viewed in dark mode. Uncommitted (orange primary, deeper destructive, and this).
+
+### [2026-10-15 08:13:28] User
+this looks good, commit
+
+### [2026-10-15 08:13:28] Claude
+Committing orange primary, deeper destructive and the removed dark opacity as a checkpoint.
