@@ -14,7 +14,7 @@ const steps = [
 
 export function Spacing() {
   return (
-    <Section title="Spacing" description="Tailwind spacing scale (1 unit = 0.25rem).">
+    <Section title="spacing" description="tailwind spacing scale (1 unit = 0.25rem).">
       <div className="space-y-2">
         {steps.map(([step, width]) => (
           <div key={step} className="flex items-center gap-4">

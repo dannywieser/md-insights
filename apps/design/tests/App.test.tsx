@@ -21,20 +21,27 @@ describe('App', () => {
   it('renders every section of the design board', () => {
     render(<App />)
 
-    for (const name of ['Color', 'Typography', 'Spacing', 'Radius', 'Components']) {
+    for (const name of ['guidelines', 'color', 'typography', 'spacing', 'components']) {
       expect(screen.getByRole('heading', { level: 2, name })).toBeInTheDocument()
     }
+  })
+
+  it('follows the lowercase text only guideline', () => {
+    render(<App />)
+
+    const text = document.body.textContent
+    expect(text).toBe(text.toLowerCase())
   })
 
   it('toggles the dark class and remembers the choice', async () => {
     render(<App />)
 
-    await userEvent.click(screen.getByRole('button', { name: 'Switch to dark' }))
+    await userEvent.click(screen.getByRole('button', { name: 'switch to dark' }))
 
     expect(document.documentElement).toHaveClass('dark')
     expect(localStorage.getItem('md-insights-design-theme')).toBe('dark')
 
-    await userEvent.click(screen.getByRole('button', { name: 'Switch to light' }))
+    await userEvent.click(screen.getByRole('button', { name: 'switch to light' }))
 
     expect(document.documentElement).not.toHaveClass('dark')
     expect(localStorage.getItem('md-insights-design-theme')).toBe('light')

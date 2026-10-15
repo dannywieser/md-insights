@@ -14,8 +14,8 @@ const sizes = ['xs', 'sm', 'default', 'lg'] as const
 
 export function Components() {
   return (
-    <Section title="Components" description="Shared components from @md-insights/ui.">
-      <h3 className="text-sm font-bold">Button variants</h3>
+    <Section title="components" description="shared components from @md-insights/ui.">
+      <h3 className="text-sm font-bold">button variants</h3>
       <div className="flex flex-wrap gap-3">
         {variants.map((variant) => (
           <Button key={variant} variant={variant}>
@@ -23,7 +23,7 @@ export function Components() {
           </Button>
         ))}
       </div>
-      <h3 className="text-sm font-bold">Button sizes</h3>
+      <h3 className="text-sm font-bold">button sizes</h3>
       <div className="flex flex-wrap items-center gap-3">
         {sizes.map((size) => (
           <Button key={size} size={size}>
@@ -32,17 +32,17 @@ export function Components() {
         ))}
         <Button disabled>disabled</Button>
       </div>
-      <h3 className="text-sm font-bold">Card</h3>
+      <h3 className="text-sm font-bold">card</h3>
       <Card className="max-w-sm">
         <CardHeader>
-          <CardTitle>Card title</CardTitle>
-          <CardDescription>Card description text.</CardDescription>
+          <CardTitle>card title</CardTitle>
+          <CardDescription>card description text.</CardDescription>
         </CardHeader>
         <CardContent>
-          <p>Card content sits here.</p>
+          <p>card content sits here.</p>
         </CardContent>
         <CardFooter>
-          <Button size="sm">Action</Button>
+          <Button size="sm">action</Button>
         </CardFooter>
       </Card>
     </Section>

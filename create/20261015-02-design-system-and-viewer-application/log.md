@@ -64,3 +64,21 @@ commit this as a checkpoint before we start to iterate
 
 ### [2026-10-15 07:51:20] Claude
 Committing everything as a checkpoint.
+
+### [2026-10-15 07:54:20] User
+this design board is a good place to track design intentions and guidelines, one of which I'd like to be lowercase text only. Can you propose a way to present that - and update all existing text on the design board to match
+
+### [2026-10-15 07:54:20] Claude
+Proposed and implemented: a "guidelines" section at the top of the board (data-driven list of cards: name, rule, example), first entry "lowercase text only", enforced by a test asserting document text equals its lowercase form. Lowercased all existing board text (headings, descriptions, sample text, button labels, toggle). Files: apps/design/src/sections/Guidelines.tsx (new), App.tsx, all sections, tests/App.test.tsx (4 tests). format/lint/typecheck/test pass. Not committed.
+
+### [2026-10-15 07:57:37] User
+I want all components to have square edges/no radius. update this and remove the radius section of the board since it's not really relevant
+
+### [2026-10-15 07:57:37] Claude
+Set --radius to 0 and pointed every --radius-sm/md/lg/xl at it in packages/ui globals.css (components keep their rounded-* classes, which now resolve to zero). Removed the radius section (Radius.tsx deleted, App and test updated). Added a "square edges" guideline card. Verified computed border-radius in browser; format/lint/typecheck/test pass. Not committed.
+
+### [2026-10-15 07:58:06] User
+go ahead and commit this checkpoint
+
+### [2026-10-15 07:58:06] Claude
+Committing guidelines section, lowercase text and square edges as a checkpoint.

@@ -50,14 +50,14 @@ function Swatch({ label, cssVar }: { label: string; cssVar: string }) {
 
 export function Palette() {
   return (
-    <Section title="Color" description="Solarized palette and the semantic roles mapped onto it.">
-      <h3 className="text-sm font-bold">Solarized</h3>
+    <Section title="color" description="solarized palette and the semantic roles mapped onto it.">
+      <h3 className="text-sm font-bold">solarized</h3>
       <div className="grid grid-cols-2 gap-4 sm:grid-cols-4 lg:grid-cols-8">
         {solarized.map((name) => (
           <Swatch key={name} label={name} cssVar={`--sol-${name}`} />
         ))}
       </div>
-      <h3 className="text-sm font-bold">Roles</h3>
+      <h3 className="text-sm font-bold">roles</h3>
       <div className="grid grid-cols-2 gap-4 sm:grid-cols-4 lg:grid-cols-6">
         {roles.map((name) => (
           <Swatch key={name} label={name} cssVar={`--${name}`} />

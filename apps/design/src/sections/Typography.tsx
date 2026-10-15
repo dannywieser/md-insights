@@ -13,18 +13,18 @@ const scale = [
 
 export function Typography() {
   return (
-    <Section title="Typography" description="Space Mono, regular and bold.">
+    <Section title="typography" description="space mono, regular and bold.">
       <div className="space-y-3">
         {scale.map(([label, className]) => (
           <div key={label} className="flex items-baseline gap-4">
             <span className="w-20 shrink-0 text-xs text-muted-foreground">{label}</span>
-            <p className={className}>Sphinx of black quartz, judge my vow</p>
+            <p className={className}>sphinx of black quartz, judge my vow</p>
           </div>
         ))}
       </div>
       <div className="flex gap-8">
-        <p className="font-normal">Regular 400</p>
-        <p className="font-bold">Bold 700</p>
+        <p className="font-normal">regular 400</p>
+        <p className="font-bold">bold 700</p>
       </div>
     </Section>
   )
