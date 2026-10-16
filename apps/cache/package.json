@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "node --watch src/index.ts",
     "start": "node src/index.ts",
+    "openapi": "node scripts/generate-openapi.ts",
     "typecheck": "tsc -p tsconfig.json",
     "test": "vitest run"
   },

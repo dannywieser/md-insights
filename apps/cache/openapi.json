@@ -1,0 +1,292 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "md-insights note cache",
+    "version": "0.0.0"
+  },
+  "components": {
+    "schemas": {
+      "Health": {
+        "type": "object",
+        "properties": {
+          "ok": {
+            "type": "boolean",
+            "enum": [
+              true
+            ]
+          }
+        },
+        "required": [
+          "ok"
+        ]
+      },
+      "UpsertResult": {
+        "type": "object",
+        "properties": {
+          "upserted": {
+            "type": "integer",
+            "minimum": 0
+          }
+        },
+        "required": [
+          "upserted"
+        ]
+      },
+      "Error": {
+        "type": "object",
+        "properties": {
+          "error": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "error"
+        ]
+      },
+      "UpsertBody": {
+        "type": "object",
+        "properties": {
+          "notes": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/NoteInput"
+            }
+          }
+        },
+        "required": [
+          "notes"
+        ]
+      },
+      "NoteInput": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[^/]+$",
+            "description": "client-chosen note id",
+            "example": "abc123"
+          },
+          "fields": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "string"
+            },
+            "description": "string fields by name",
+            "example": {
+              "title": "plan",
+              "body": "raised beds"
+            }
+          }
+        },
+        "required": [
+          "id",
+          "fields"
+        ]
+      },
+      "NoteRow": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[^/]+$",
+            "description": "client-chosen note id",
+            "example": "abc123"
+          }
+        },
+        "required": [
+          "id"
+        ],
+        "additionalProperties": {
+          "type": "string"
+        }
+      },
+      "Note": {
+        "type": "object",
+        "properties": {
+          "fields": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "string"
+            },
+            "description": "string fields by name",
+            "example": {
+              "title": "plan",
+              "body": "raised beds"
+            }
+          }
+        },
+        "required": [
+          "fields"
+        ]
+      }
+    },
+    "parameters": {}
+  },
+  "paths": {
+    "/health": {
+      "get": {
+        "operationId": "getHealth",
+        "summary": "liveness check",
+        "responses": {
+          "200": {
+            "description": "service is up",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Health"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/notes": {
+      "put": {
+        "operationId": "upsertNotes",
+        "summary": "upsert a batch of notes; only the named fields are written",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpsertBody"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "number of notes upserted",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UpsertResult"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "invalid input",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "operationId": "listNotes",
+        "summary": "list notes with the requested fields, ordered by id",
+        "parameters": [
+          {
+            "schema": {
+              "type": "string",
+              "minLength": 1,
+              "description": "comma-separated field names to include",
+              "example": "title,synced"
+            },
+            "required": true,
+            "description": "comma-separated field names to include",
+            "name": "fields",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "one row per note",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/NoteRow"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "invalid input",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/notes/{id}": {
+      "get": {
+        "operationId": "getNote",
+        "summary": "all fields of one note",
+        "parameters": [
+          {
+            "schema": {
+              "type": "string",
+              "pattern": "^[^/]+$",
+              "description": "client-chosen note id",
+              "example": "abc123"
+            },
+            "required": true,
+            "description": "client-chosen note id",
+            "name": "id",
+            "in": "path"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "the note",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Note"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "unknown note",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "operationId": "deleteNote",
+        "summary": "remove a note; succeeds even if it did not exist",
+        "parameters": [
+          {
+            "schema": {
+              "type": "string",
+              "pattern": "^[^/]+$",
+              "description": "client-chosen note id",
+              "example": "abc123"
+            },
+            "required": true,
+            "description": "client-chosen note id",
+            "name": "id",
+            "in": "path"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "note removed"
+          }
+        }
+      }
+    }
+  },
+  "webhooks": {}
+}

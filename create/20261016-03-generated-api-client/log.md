@@ -90,3 +90,15 @@ commit this as a checkpoint and then proceed
 
 ### [2026-10-16 17:50:10] Claude
 Committed step 1 (953f893). Step 2 done: rewrote `apps/cache/src/app.ts` with `OpenAPIHono` + `createRoute` (operationIds getHealth, upsertNotes, listNotes, getNote, deleteNote), a `defaultHook` turning zod issues into `400 { error }`, and `onError` mapping `HTTPException` (e.g. malformed JSON) to `{ error }`. `bodyLimit` moved to the upsert route's `middleware`. Only test change: `tests/api.test.ts` types `app` as `OpenAPIHono` instead of `Hono`. All 30 tests pass unchanged otherwise; typecheck and eslint clean. Messages changed as expected (e.g. `notes.0.id: must be non-empty and must not contain "/"`, `Malformed JSON in request body`). Paused before step 3.
+
+### [2026-10-16 17:58:00] User
+explain to me the changes in app.ts - where do I look to see "validate the request against a schema"
+
+### [2026-10-16 17:58:10] Claude
+Explained: `request:` blocks in each `createRoute` (app.ts:47/64/76/88) declare schemas; `app.openapi(route, handler)` runs validation before the handler; handlers read `c.req.valid(...)`; `defaultHook` (app.ts:96) formats failures as 400 `{ error }`; malformed JSON goes through `HTTPException` + `onError`. Noted the remaining hand check on empty `fields` after splitting.
+
+### [2026-10-16 18:00:00] User
+commit and proceed
+
+### [2026-10-16 18:12:00] Claude
+Committed step 2 (7fd2d61). Step 3 done: added `apps/cache/src/openapi.ts` (`buildOpenApiJson()`, builds the app on an in-memory store), `apps/cache/scripts/generate-openapi.ts` (writes `apps/cache/openapi.json`), `pnpm --filter @md-insights/cache openapi` script, `tests/openapi.test.ts` (committed file must equal generated), `scripts` added to the cache tsconfig. Deviations: gave the schemas `.meta({ id })` (NoteInput, UpsertBody, UpsertResult, NoteRow, Note, Health, Error) so the spec has named components and the client gets named types; added `apps/cache/openapi.json` to `.prettierignore` because prettier reformats the generated JSON and the staleness test compares exact bytes. 31 tests pass; typecheck, eslint, prettier clean. Paused before step 4.
