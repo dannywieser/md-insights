@@ -10,6 +10,7 @@
   "scripts": {
     "dev": "pnpm --filter @md-insights/web dev",
     "dev:design": "pnpm --filter @md-insights/design dev",
+    "dev:electron": "pnpm --filter @md-insights/electron dev",
     "build": "pnpm -r build",
     "typecheck": "pnpm -r typecheck",
     "test": "pnpm -r test",
