@@ -10,5 +10,7 @@ export {
   CardFooter,
 } from './components/card'
 export { AppHeader } from './components/app-header'
+export { Logo } from './components/logo'
+export { Wordmark } from './components/wordmark'
 export { NoteGrid, NOTE_COLORS } from './components/note-grid'
 export type { Note } from './components/note-grid'

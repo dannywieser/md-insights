@@ -21,6 +21,11 @@ const guidelines = [
     rule: 'the page background is grid paper: a 16px cell with a stronger line every 5th cell. layouts and spacing snap to the grid where they can.',
     example: '16px cell · major every 5th · set by --grid-size',
   },
+  {
+    name: 'pixel logo',
+    rule: 'the logo is pixel art from 5 wide bitmap glyphs: no smoothing, no rounding. the dot and the cursor bar use the primary color, the rest the text color. the favicon is a static copy with fixed solarized colors, so update it by hand with the theme.',
+    example: '.md · .md|insights',
+  },
 ]
 
 export function Guidelines() {

@@ -9,6 +9,13 @@ describe('AppHeader', () => {
     expect(screen.getByRole('heading', { level: 1, name: 'notes' })).toBeInTheDocument()
   })
 
+  it('shows the wordmark and keeps the title as its accessible name', () => {
+    render(<AppHeader title="notes" subtitle="design" />)
+
+    expect(screen.getByRole('heading', { level: 1 }).querySelector('svg')).toBeInTheDocument()
+    expect(screen.getByRole('heading', { level: 1 })).toHaveAccessibleName('notes')
+  })
+
   it('renders actions beside the title', () => {
     render(
       <AppHeader title="notes">

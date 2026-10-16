@@ -23,6 +23,7 @@ describe('App', () => {
 
     for (const name of [
       'guidelines',
+      'logo',
       'color',
       'typography',
       'spacing',

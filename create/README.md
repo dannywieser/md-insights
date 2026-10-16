@@ -39,3 +39,4 @@ New sessions are appended to the bottom of this table.
 | [20261015-01-repo-bootstrap](20261015-01-repo-bootstrap/) | repo bootstrap | complete | 2026-10-15 |
 | [20261015-02-design-system-and-viewer-application](20261015-02-design-system-and-viewer-application/) | design system and viewer application | complete | 2026-10-15 |
 | [20261015-03-note-visualization-grid](20261015-03-note-visualization-grid/) | note visualization grid | complete | 2026-10-15 |
+| [20261015-04-app-logo-and-icon](20261015-04-app-logo-and-icon/) | app logo and icon | complete | 2026-10-15 |
