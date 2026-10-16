@@ -2,6 +2,7 @@
 
 - **Slug:** 20261016-03-generated-api-client
 - **Started:** 2026-10-16 16:37:00 MDT
+- **Completed:** 2026-10-16 17:59:21 MDT
 
 ---
 
@@ -164,3 +165,18 @@ ok, looks good, commit and proceed
 
 ### [2026-10-16 20:15:00] Claude
 Committed step 8 and `dev:all` (a74311b). Step 9 done: new `packages/api-client/README.md` (flow, usage, adding an API); `apps/cache/README.md` gains an OpenAPI spec section; root `README.md` (commands, layout, status line) and `CLAUDE.md` (status, commands `dev:all`/`generate`/`openapi`, structure for api-client and the cache files, conventions for the one-way contract flow and the dependency catalog) updated. `pnpm format:check` clean. Paused before step 10 (final checks).
+
+### [2026-10-16 20:20:00] User
+commit and proceed
+
+### [2026-10-16 20:25:00] Claude
+Committed step 9 (738c9e6). Step 10 done: from a clean state (generated dir deleted) `pnpm format`/`format:check`, `lint`, `typecheck`, `test` (api-client 6, cache 31, ui 47, electron 9, design 4, web 5) and `build` all pass. Nothing left uncommitted but this log. Implementation complete; user can run /create-complete.
+
+### [2026-10-16 17:59:21] User
+/create-complete
+
+### [2026-10-16 17:59:21] Decision
+Session complete. Summary written to summary.md; harvest added gotchas to CLAUDE.md.
+
+### [2026-10-16 17:59:24] User
+go ahead and commit

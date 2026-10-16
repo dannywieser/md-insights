@@ -44,4 +44,4 @@ New sessions are appended to the bottom of this table.
 | [20261015-06-bugfix-focus-border-in-notes-grid](20261015-06-bugfix-focus-border-in-notes-grid/) | bugfix: focus border in notes grid | complete | 2026-10-15 |
 | [20261016-01-bootstrap-electron-app](20261016-01-bootstrap-electron-app/) | bootstrap electron app | complete | 2026-10-16 |
 | [20261016-02-note-cache-service](20261016-02-note-cache-service/) | note cache service | complete | 2026-10-16 |
-| [20261016-03-generated-api-client](20261016-03-generated-api-client/) | generated api client | planned | 2026-10-16 |
+| [20261016-03-generated-api-client](20261016-03-generated-api-client/) | generated api client | complete | 2026-10-16 |
