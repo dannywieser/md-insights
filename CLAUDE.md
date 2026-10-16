@@ -1,6 +1,6 @@
 # md-insights
 
-Homelab TypeScript/Node project: loads markdown notes (a folder of `.md` files or a Bear DB) into a cache for analysis of content, relationships and structure. Currently only a hello world web app and a shared UI package exist; a service and a second (likely Electron) web app are planned.
+Homelab TypeScript/Node project: loads markdown notes (a folder of `.md` files or a Bear DB) into a cache for analysis of content, relationships and structure. Currently the web app (a note grid of fake data), a design viewer and a shared UI package exist; a service and a second (likely Electron) web app are planned.
 
 ## Commands
 
@@ -32,6 +32,7 @@ New apps go in `apps/*`, shared code in `packages/*`.
 - The logo (`Logo`, `Wordmark`) is pixel art drawn from bitmap glyphs in `packages/ui/src/lib/pixel-glyphs.ts`; `AppHeader` shows the wordmark. The favicons (`apps/*/public/favicon.svg`) are static copies with fixed Solarized hex colors, so regenerate them by hand when the glyphs or theme change; `apps/web/tests/favicon.test.ts` catches drift in the pixels.
 - The grid's minor line is `base02` in dark mode, the same as a card, so an element showing `bg-grid` on a card also needs `bg-background` or its minor lines vanish.
 - Components that draw thousands of items (like `NoteGrid`) must not attach per-item elements, handlers or popovers: use one pointer handler that derives the item from the layout, one shared tooltip, and `React.memo` on the item layer.
+- `NoteGrid` fills its container when `height` is omitted (pass `height` for a fixed size). To put it in a card that hugs the grid, use `frame` plus `inset` (the px the frame adds per side) so the frame's padding stays out of the layout; the app landing page does this. Squares are whole pixels, so some leftover space around the grid is expected.
 - Any app that uses the UI package needs `@source` for `packages/ui/src` in its CSS so Tailwind sees the class names.
 - TypeScript is pinned to 6.0.x because typescript-eslint does not support TypeScript 7. Do not upgrade `typescript` until it does.
 - Prettier: no semicolons, single quotes, trailing commas, 100 columns. 2-space indent, LF.

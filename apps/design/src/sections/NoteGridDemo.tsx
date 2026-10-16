@@ -45,7 +45,7 @@ export function NoteGridDemo() {
           />
         </label>
       </div>
-      <NoteGrid notes={notes} />
+      <NoteGrid notes={notes} height={320} />
     </Section>
   )
 }

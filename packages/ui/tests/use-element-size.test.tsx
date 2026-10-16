@@ -1,24 +1,27 @@
 import { act, render, screen } from '@testing-library/react'
 import { useRef } from 'react'
-import { useElementWidth } from '../src/lib/use-element-width'
+import { useElementSize } from '../src/lib/use-element-size'
 
 function Probe() {
   const ref = useRef<HTMLDivElement>(null)
-  const width = useElementWidth(ref)
+  const { width, height } = useElementSize(ref)
   return (
     <div ref={ref}>
-      <span data-testid="width">{width}</span>
+      <span data-testid="size">{`${width}x${height}`}</span>
     </div>
   )
 }
 
-describe('useElementWidth', () => {
+describe('useElementSize', () => {
   let width = 200
+  let height = 100
   let notify: () => void = () => {}
 
   beforeEach(() => {
     width = 200
+    height = 100
     vi.spyOn(HTMLElement.prototype, 'clientWidth', 'get').mockImplementation(() => width)
+    vi.spyOn(HTMLElement.prototype, 'clientHeight', 'get').mockImplementation(() => height)
     vi.stubGlobal(
       'ResizeObserver',
       class {
@@ -36,17 +39,18 @@ describe('useElementWidth', () => {
     vi.unstubAllGlobals()
   })
 
-  it('reports the width on mount', () => {
+  it('reports the size on mount', () => {
     render(<Probe />)
 
-    expect(screen.getByTestId('width')).toHaveTextContent('200')
+    expect(screen.getByTestId('size')).toHaveTextContent('200x100')
   })
 
   it('updates when the element resizes', () => {
     render(<Probe />)
     width = 350
+    height = 420
     act(() => notify())
 
-    expect(screen.getByTestId('width')).toHaveTextContent('350')
+    expect(screen.getByTestId('size')).toHaveTextContent('350x420')
   })
 })

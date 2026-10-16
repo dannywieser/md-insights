@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { cn } from 'cn'
 import { layoutGrid } from '../lib/note-grid-layout'
-import { useElementWidth } from '../lib/use-element-width'
+import { useElementSize } from '../lib/use-element-size'
 
 export const NOTE_COLORS = 10
 
@@ -14,8 +14,12 @@ export type Note = {
 
 type NoteGridProps = {
   notes: Note[]
-  /** height of the drawing area in px; squares shrink so every note fits inside it. */
+  /** height of the drawing area in px; squares shrink so every note fits inside it. Omit to fill the container's height. */
   height?: number
+  /** wraps the drawn grid, e.g. in a card that hugs it; see `inset`. */
+  frame?: (grid: React.ReactNode) => React.ReactNode
+  /** px the frame adds on each side of the grid; kept out of the space the grid is laid out in. */
+  inset?: number
   className?: string
 }
 
@@ -54,9 +58,11 @@ const Cells = React.memo(function Cells({ notes, columns, cell }: CellsProps) {
   )
 })
 
-function NoteGrid({ notes, height = 320, className }: NoteGridProps) {
+function NoteGrid({ notes, height: fixedHeight, frame, inset = 0, className }: NoteGridProps) {
   const areaRef = React.useRef<HTMLDivElement>(null)
-  const width = useElementWidth(areaRef)
+  const size = useElementSize(areaRef)
+  const width = Math.max(0, size.width - 2 * inset)
+  const height = Math.max(0, (fixedHeight ?? size.height) - 2 * inset)
   const [hovered, setHovered] = React.useState<number | null>(null)
   const { columns, rows, cell } = layoutGrid({ count: notes.length, width, height })
   const gridWidth = columns * cell
@@ -77,56 +83,56 @@ function NoteGrid({ notes, height = 320, className }: NoteGridProps) {
     setHovered(inside && index < notes.length ? index : null)
   }
 
+  const grid = (
+    <div className="relative shrink-0">
+      <svg
+        role="img"
+        aria-label={`${notes.length} notes`}
+        width={gridWidth + 3}
+        height={gridHeight + 3}
+        shapeRendering="crispEdges"
+        onPointerMove={handlePointerMove}
+        onPointerLeave={() => setHovered(null)}
+      >
+        <Cells notes={notes} columns={columns} cell={cell} />
+        <rect className="note-border" x={1} y={1} width={gridWidth + 1} height={gridHeight + 1} />
+        {active !== null && (
+          <rect
+            className="note-hover"
+            x={cellX(active) - 0.5}
+            y={cellY(active) - 0.5}
+            width={cell}
+            height={cell}
+          />
+        )}
+      </svg>
+      {active !== null && (
+        <div
+          role="tooltip"
+          className="pointer-events-none absolute z-10 -translate-x-1/2 -translate-y-full whitespace-nowrap border bg-card px-2 py-1 text-xs text-card-foreground shadow-hard"
+          style={{ left: cellX(active) + cell / 2, top: cellY(active) - 8 }}
+        >
+          {notes[active].title}
+        </div>
+      )}
+    </div>
+  )
+
   return (
     <div
       ref={areaRef}
       data-slot="note-grid"
-      className={cn('flex w-full items-center justify-center', className)}
-      style={{ height }}
+      className={cn(
+        'flex w-full items-center justify-center',
+        fixedHeight === undefined && 'h-full',
+        className,
+      )}
+      style={fixedHeight === undefined ? undefined : { height: fixedHeight }}
     >
       {notes.length === 0 ? (
         <p className="text-sm text-muted-foreground">no notes</p>
       ) : (
-        width > 0 && (
-          <div className="relative shrink-0">
-            <svg
-              role="img"
-              aria-label={`${notes.length} notes`}
-              width={gridWidth + 3}
-              height={gridHeight + 3}
-              shapeRendering="crispEdges"
-              onPointerMove={handlePointerMove}
-              onPointerLeave={() => setHovered(null)}
-            >
-              <Cells notes={notes} columns={columns} cell={cell} />
-              <rect
-                className="note-border"
-                x={1}
-                y={1}
-                width={gridWidth + 1}
-                height={gridHeight + 1}
-              />
-              {active !== null && (
-                <rect
-                  className="note-hover"
-                  x={cellX(active) - 0.5}
-                  y={cellY(active) - 0.5}
-                  width={cell}
-                  height={cell}
-                />
-              )}
-            </svg>
-            {active !== null && (
-              <div
-                role="tooltip"
-                className="pointer-events-none absolute z-10 -translate-x-1/2 -translate-y-full whitespace-nowrap border bg-card px-2 py-1 text-xs text-card-foreground shadow-hard"
-                style={{ left: cellX(active) + cell / 2, top: cellY(active) - 8 }}
-              >
-                {notes[active].title}
-              </div>
-            )}
-          </div>
-        )
+        width > 0 && height > 0 && (frame ? frame(grid) : grid)
       )}
     </div>
   )

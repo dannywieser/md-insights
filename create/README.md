@@ -40,3 +40,4 @@ New sessions are appended to the bottom of this table.
 | [20261015-02-design-system-and-viewer-application](20261015-02-design-system-and-viewer-application/) | design system and viewer application | complete | 2026-10-15 |
 | [20261015-03-note-visualization-grid](20261015-03-note-visualization-grid/) | note visualization grid | complete | 2026-10-15 |
 | [20261015-04-app-logo-and-icon](20261015-04-app-logo-and-icon/) | app logo and icon | complete | 2026-10-15 |
+| [20261015-05-notes-grid-into-web-app](20261015-05-notes-grid-into-web-app/) | notes grid into web app | complete | 2026-10-15 |

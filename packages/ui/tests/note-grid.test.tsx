@@ -12,6 +12,7 @@ function makeNotes(count: number): Note[] {
 describe('NoteGrid', () => {
   beforeEach(() => {
     vi.spyOn(HTMLElement.prototype, 'clientWidth', 'get').mockReturnValue(400)
+    vi.spyOn(HTMLElement.prototype, 'clientHeight', 'get').mockReturnValue(320)
   })
 
   afterEach(() => {
@@ -22,6 +23,42 @@ describe('NoteGrid', () => {
     const { container } = render(<NoteGrid notes={makeNotes(12)} />)
 
     expect(container.querySelectorAll('.note-square')).toHaveLength(12)
+  })
+
+  it('fills the height of its container when no height is given', () => {
+    const { container } = render(<NoteGrid notes={makeNotes(2000)} />)
+    const area = container.querySelector('[data-slot="note-grid"]') as HTMLElement
+    const svg = container.querySelector('svg')
+
+    expect(area.style.height).toBe('')
+    expect(area).toHaveClass('h-full')
+    expect(Number(svg?.getAttribute('height'))).toBeLessThanOrEqual(320 + 3)
+  })
+
+  it('uses a fixed height when one is given', () => {
+    const { container } = render(<NoteGrid notes={makeNotes(12)} height={200} />)
+    const area = container.querySelector('[data-slot="note-grid"]') as HTMLElement
+
+    expect(area.style.height).toBe('200px')
+    expect(area).not.toHaveClass('h-full')
+  })
+
+  it('wraps the grid in the frame and keeps its inset out of the layout', () => {
+    const squareSize = (inset: number) => {
+      const { container, unmount } = render(
+        <NoteGrid
+          notes={makeNotes(2000)}
+          inset={inset}
+          frame={(grid) => <div data-testid="frame">{grid}</div>}
+        />,
+      )
+      expect(screen.getByTestId('frame').querySelector('svg')).not.toBeNull()
+      const size = Number(container.querySelector('.note-square')?.getAttribute('width'))
+      unmount()
+      return size
+    }
+
+    expect(squareSize(60)).toBeLessThan(squareSize(0))
   })
 
   it('has no per-note title elements', () => {

@@ -2,10 +2,26 @@ import { render, screen } from '@testing-library/react'
 import { App } from '../src/App'
 
 describe('App', () => {
-  it('renders the app header and the hello world card', () => {
+  beforeEach(() => {
+    vi.spyOn(HTMLElement.prototype, 'clientWidth', 'get').mockReturnValue(800)
+    vi.spyOn(HTMLElement.prototype, 'clientHeight', 'get').mockReturnValue(600)
+  })
+
+  afterEach(() => {
+    vi.restoreAllMocks()
+  })
+
+  it('renders the app header', () => {
     render(<App />)
 
     expect(screen.getByRole('banner')).toHaveTextContent('md-insights')
-    expect(screen.getByText('hello, world!')).toBeInTheDocument()
+  })
+
+  it('shows a card hugging a grid of 5000 notes', () => {
+    const { container } = render(<App />)
+
+    expect(screen.getByRole('img', { name: '5000 notes' })).toBeInTheDocument()
+    expect(container.querySelectorAll('.note-square')).toHaveLength(5000)
+    expect(container.querySelector('[data-slot="note-grid"] [data-slot="card"] svg')).not.toBeNull()
   })
 })
