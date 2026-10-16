@@ -128,3 +128,9 @@ A
 
 ### [2026-10-16 19:00:30] Claude
 Applied option A (deviation from plan, API change): `GET /notes` rows are now `{ id, fields: { ... } }`. Changed `NoteRowSchema` in `apps/cache/src/schemas.ts`, the list handler in `app.ts` (store rows returned as is), two assertions in `tests/api.test.ts`, the README row; regenerated `openapi.json` and the client. `zNoteRow` now has `id` + `fields` record, so response validation keeps the fields. 31 cache tests pass; typecheck and eslint clean for cache and api-client. Step 5 done. Paused before step 6.
+
+### [2026-10-16 19:10:00] User
+ok, commit and proceed
+
+### [2026-10-16 19:20:00] Claude
+Committed the row-shape change and generator config (76321a6). Step 6 done: `packages/api-client/src/cache/index.ts` re-exports the generated SDK, types, zod schemas and react-query helpers, exports `cacheClient` and `configureCacheClient({ baseUrl, fetch? })`; `tests/cache.test.ts` (6 tests, stubbed fetch, no server): list rows keep `fields`, schemas reject slash/empty ids and non-string values, SDK sends to the configured base URL, rejects an invalid request before fetching, rejects a mismatching response, query options carry the key. Deviation: test file name `cache.test.ts` as planned; test names differ from the plan's smoke test only in scope. Typecheck, eslint, prettier clean. Paused before step 7.
