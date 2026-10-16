@@ -158,3 +158,9 @@ add that dev:all command
 
 ### [2026-10-16 20:00:10] Claude
 Added root script `dev:all` (cache + web in parallel); verified both ports respond.
+
+### [2026-10-16 20:05:00] User
+ok, looks good, commit and proceed
+
+### [2026-10-16 20:15:00] Claude
+Committed step 8 and `dev:all` (a74311b). Step 9 done: new `packages/api-client/README.md` (flow, usage, adding an API); `apps/cache/README.md` gains an OpenAPI spec section; root `README.md` (commands, layout, status line) and `CLAUDE.md` (status, commands `dev:all`/`generate`/`openapi`, structure for api-client and the cache files, conventions for the one-way contract flow and the dependency catalog) updated. `pnpm format:check` clean. Paused before step 10 (final checks).

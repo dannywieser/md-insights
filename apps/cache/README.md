@@ -31,6 +31,16 @@ A note is an `id` (chosen by the client) plus string fields such as `title` and 
 
 `PUT` only writes the fields it names; other stored fields of that note are kept. The service stamps `synced` (ISO 8601 UTC time of the upsert) on every upserted note and overwrites any `synced` the client sends. Errors are `{ "error": "..." }` with `400` for bad input.
 
+## OpenAPI spec
+
+The routes and their validation are zod schemas (`src/schemas.ts`, `src/app.ts`, `@hono/zod-openapi`). `openapi.json` is generated from them and committed; after changing a route run:
+
+```bash
+pnpm openapi
+```
+
+A test fails when the committed spec differs from the routes. `packages/api-client` generates its client from this file (see its README).
+
 ## Try it with curl
 
 Start the service in one terminal (`pnpm dev:cache`), then in another:
