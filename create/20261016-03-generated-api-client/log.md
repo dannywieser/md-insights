@@ -140,3 +140,21 @@ commit and proceed
 
 ### [2026-10-16 19:35:00] Claude
 Committed step 6 (9ebce1b). Step 7 done: root `package.json` gains `generate` and `openapi` scripts; `build`, `typecheck`, `test` and `lint` now run `pnpm generate` first. (pnpm does not run pre-scripts by default, so they are chained.) Verified from a clean state (generated dir deleted): typecheck, lint, test (api-client 6, cache 31, ui 47, electron 9, design 4, web 4) and build all pass; format:check clean. Ignore entries were already done in step 4. Paused before step 8.
+
+### [2026-10-16 19:40:00] User
+go ahead (commit step 7; step 8 including a temporary console.log of the generated listNotes query in App)
+
+### [2026-10-16 19:55:00] User
+give me a command to run the web app and server in parallel
+
+### [2026-10-16 19:55:10] Claude
+Gave: `pnpm --parallel --filter @md-insights/cache --filter @md-insights/web dev` (offered a root `dev:all` script).
+
+### [2026-10-16 19:56:00] Claude
+Committed step 7 (4e0eb46). Step 8 done, plus the temporary console.log: web app depends on `@md-insights/api-client` and `@tanstack/react-query` (added `@tanstack/react-query` to the pnpm catalog, used by web and api-client); new `src/query-client.ts`, `src/vite-env.d.ts` (`VITE_CACHE_URL`), `main.tsx` configures the client (default `http://localhost:8787`) and wraps `QueryClientProvider`; `App.tsx` runs `useQuery(listNotesOptions(...))` and logs the result (marked temporary; the grid still shows fake notes). `tests/App.test.tsx` wraps in a provider, stubs fetch, sets a test base URL, and adds a test that the list is requested and logged (first run failed: relative URL invalid in node, fixed by configuring a base URL). Verified in the browser against a live in-memory cache: console shows `cache notes` with 2 rows. Full lint, typecheck, tests (cache 31, api-client 6, ui 47, electron 9, design 4, web 5) pass. Paused before step 9.
+
+### [2026-10-16 20:00:00] User
+add that dev:all command
+
+### [2026-10-16 20:00:10] Claude
+Added root script `dev:all` (cache + web in parallel); verified both ports respond.

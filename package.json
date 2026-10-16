@@ -9,6 +9,7 @@
   },
   "scripts": {
     "dev": "pnpm --filter @md-insights/web dev",
+    "dev:all": "pnpm --parallel --filter @md-insights/cache --filter @md-insights/web dev",
     "dev:design": "pnpm --filter @md-insights/design dev",
     "dev:electron": "pnpm --filter @md-insights/electron dev",
     "dev:cache": "pnpm --filter @md-insights/cache dev",
