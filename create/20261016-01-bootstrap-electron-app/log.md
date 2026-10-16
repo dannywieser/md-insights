@@ -159,3 +159,12 @@ Committed step 3 ("Add electron ipc contract and markdown scan"), then did step 
 
 ### [2026-10-16 06:42:59] Claude
 Step 4 (main + preload) done. Files: `apps/electron/src/main/ipc.ts` (handlers for pickFolder via dialog.showOpenDialog parented to the window, scanFolder with absolute-path + is-directory validation, progress pushed to the calling webContents), `src/main/index.ts` (BrowserWindow with contextIsolation, no nodeIntegration, sandbox; denies window.open and navigation; dev URL vs built file; mac activate/quit handling), `src/preload/index.ts` (builds window.api from the shared Api, onScanProgress returns an unsubscribe). Modified `electron.vite.config.ts` (preload output as cjs with .cjs extension, because sandboxed preloads can't be ESM) and `.gitignore` (+ `out/`). Verified: node tsconfig typecheck clean, lint clean, `electron-vite build` produces out/main/index.js and out/preload/index.cjs; the build's renderer stage fails only because the renderer doesn't exist yet (step 5). Not committed; app not launched yet. Paused for review.
+
+### [2026-10-16 06:48:10] User
+commit and continue to step 5
+
+### [2026-10-16 06:48:10] Decision
+Committed step 4 ("Add electron main process and preload"), then did step 5.
+
+### [2026-10-16 06:48:10] Claude
+Step 5 (renderer) done. Files: `apps/electron/src/renderer/index.html` (strict CSP meta), `src/main.tsx`, `src/index.css` (ui globals + @source), `src/env.d.ts` (window.api: Api), `src/App.tsx` (header, "choose folder" button, chosen path, live "scanning…" progress, final "N notes", error state; subscribes to progress per scan and unsubscribes in finally), `tests/renderer/App.test.tsx` (5 tests with a stubbed window.api: render, pick+scan+count, progress then final, cancel, error). Deviation: `Api` in shared/ipc.ts changed from method signatures to function-typed properties to satisfy the unbound-method lint rule. Results: 9 tests pass, typecheck clean, lint clean, `pnpm --filter @md-insights/electron build` succeeds (full build incl. renderer). Risk to check at step 6: the CSP meta may block the dev-mode react-refresh inline preamble. Not committed. Paused for review.

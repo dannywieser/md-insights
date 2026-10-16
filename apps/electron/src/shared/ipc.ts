@@ -21,9 +21,9 @@ export interface ScanResult {
 /** what the preload script exposes to the renderer as `window.api`. */
 export interface Api {
   /** opens the native folder dialog; resolves to null when cancelled. */
-  pickFolder(): Promise<string | null>
+  pickFolder: () => Promise<string | null>
   /** counts markdown files under `path`, recursively. */
-  scanFolder(path: string): Promise<ScanResult>
+  scanFolder: (path: string) => Promise<ScanResult>
   /** subscribes to progress pushed by main during a scan; returns an unsubscribe function. */
-  onScanProgress(callback: (progress: ScanProgress) => void): () => void
+  onScanProgress: (callback: (progress: ScanProgress) => void) => () => void
 }
