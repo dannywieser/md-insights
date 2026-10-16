@@ -141,3 +141,12 @@ Committed step 1 as a checkpoint ("Scaffold electron app workspace with electron
 
 ### [2026-10-16 06:36:21] Claude
 Step 2 (demo notes) done. Created `demo/`: 18 countable .md files (README, inbox, projects/{index, md-insights/{overview, roadmap, ideas/cache-service}, garden/{plan, plants}}, journal/{2026-10-01..03, weekly/week-40}, reference/{markdown-cheatsheet, electron-notes, glossary, books/{reading-list, atomic-habits, deep-work}}), non-notes (`projects/md-insights/notes.txt`, `journal/todo.txt`, `reference/diagram.svg`), and `.hidden/{secret.md, old/archive.md}` (not counted). Mix of [[wikilinks]] and relative links. README states the expected count (18); `find` confirms 18. Deviation: README.md itself is one of the 18. Ran `pnpm format`. Not committed. Paused for review.
+
+### [2026-10-16 06:38:28] User
+commit and continue
+
+### [2026-10-16 06:38:28] Decision
+Committed step 2 ("Add demo notes folder"), then did step 3.
+
+### [2026-10-16 06:38:28] Claude
+Step 3 (ipc contract + scan) done. Files: `apps/electron/src/shared/ipc.ts` (IPC channel names, ScanProgress, ScanResult, Api), `src/main/scan.ts` (scanMarkdown: recursive, .md case-insensitive, skips dot-dirs and node_modules, doesn't follow symlinks, ignores unreadable dirs, throttled progress with a final forced report), `tests/main/scan.test.ts` (4 tests: demo = 18, progress monotonic and ends at totals, temp tree filtering, missing folder = 0). Deviations: tests split into `tests/main` (node env, typed by tsconfig.node.json with vitest globals) and `tests/renderer` (to come, tsconfig.web.json) so each tsconfig only sees its own environment. Results: `pnpm test` 4 pass, typecheck clean, lint clean (typed linting works with the two-tsconfig layout, so that risk is retired). Not committed. Paused for review.

@@ -12,5 +12,5 @@
       "@md-insights/ui/*": ["../../packages/ui/src/*"]
     }
   },
-  "include": ["src/renderer", "src/shared", "tests", "vitest.config.ts"]
+  "include": ["src/renderer", "src/shared", "tests/renderer", "tests/setup.ts", "vitest.config.ts"]
 }
