@@ -5,7 +5,14 @@ import { defineConfig } from 'electron-vite'
 
 export default defineConfig({
   main: {},
-  preload: {},
+  preload: {
+    build: {
+      // sandboxed preload scripts must be commonjs.
+      rollupOptions: {
+        output: { format: 'cjs', entryFileNames: '[name].cjs' },
+      },
+    },
+  },
   renderer: {
     plugins: [react(), tailwindcss()],
     resolve: {

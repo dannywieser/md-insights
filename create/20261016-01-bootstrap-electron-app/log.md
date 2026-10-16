@@ -150,3 +150,12 @@ Committed step 2 ("Add demo notes folder"), then did step 3.
 
 ### [2026-10-16 06:38:28] Claude
 Step 3 (ipc contract + scan) done. Files: `apps/electron/src/shared/ipc.ts` (IPC channel names, ScanProgress, ScanResult, Api), `src/main/scan.ts` (scanMarkdown: recursive, .md case-insensitive, skips dot-dirs and node_modules, doesn't follow symlinks, ignores unreadable dirs, throttled progress with a final forced report), `tests/main/scan.test.ts` (4 tests: demo = 18, progress monotonic and ends at totals, temp tree filtering, missing folder = 0). Deviations: tests split into `tests/main` (node env, typed by tsconfig.node.json with vitest globals) and `tests/renderer` (to come, tsconfig.web.json) so each tsconfig only sees its own environment. Results: `pnpm test` 4 pass, typecheck clean, lint clean (typed linting works with the two-tsconfig layout, so that risk is retired). Not committed. Paused for review.
+
+### [2026-10-16 06:42:59] User
+commit and continue to step 4
+
+### [2026-10-16 06:42:59] Decision
+Committed step 3 ("Add electron ipc contract and markdown scan"), then did step 4.
+
+### [2026-10-16 06:42:59] Claude
+Step 4 (main + preload) done. Files: `apps/electron/src/main/ipc.ts` (handlers for pickFolder via dialog.showOpenDialog parented to the window, scanFolder with absolute-path + is-directory validation, progress pushed to the calling webContents), `src/main/index.ts` (BrowserWindow with contextIsolation, no nodeIntegration, sandbox; denies window.open and navigation; dev URL vs built file; mac activate/quit handling), `src/preload/index.ts` (builds window.api from the shared Api, onScanProgress returns an unsubscribe). Modified `electron.vite.config.ts` (preload output as cjs with .cjs extension, because sandboxed preloads can't be ESM) and `.gitignore` (+ `out/`). Verified: node tsconfig typecheck clean, lint clean, `electron-vite build` produces out/main/index.js and out/preload/index.cjs; the build's renderer stage fails only because the renderer doesn't exist yet (step 5). Not committed; app not launched yet. Paused for review.
