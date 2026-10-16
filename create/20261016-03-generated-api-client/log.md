@@ -84,3 +84,9 @@ Committed the session folder (984e99e). Approach: step by step; pause after each
 
 ### [2026-10-16 17:45:10] Claude
 Step 1 done. Added `zod` 4.6.7 and `@hono/zod-openapi` 1.6.3 (pinned exact, per repo convention) to `apps/cache/package.json`; wrote `apps/cache/src/schemas.ts` (name/id/fields/note input/upsert body+result/list query/row/note/param/health/error schemas). Sanity-checked: accepts valid payloads, rejects names containing "/". Typecheck and eslint clean. No deviations. Paused before step 2.
+
+### [2026-10-16 17:50:00] User
+commit this as a checkpoint and then proceed
+
+### [2026-10-16 17:50:10] Claude
+Committed step 1 (953f893). Step 2 done: rewrote `apps/cache/src/app.ts` with `OpenAPIHono` + `createRoute` (operationIds getHealth, upsertNotes, listNotes, getNote, deleteNote), a `defaultHook` turning zod issues into `400 { error }`, and `onError` mapping `HTTPException` (e.g. malformed JSON) to `{ error }`. `bodyLimit` moved to the upsert route's `middleware`. Only test change: `tests/api.test.ts` types `app` as `OpenAPIHono` instead of `Hono`. All 30 tests pass unchanged otherwise; typecheck and eslint clean. Messages changed as expected (e.g. `notes.0.id: must be non-empty and must not contain "/"`, `Malformed JSON in request body`). Paused before step 3.

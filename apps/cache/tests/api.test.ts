@@ -1,11 +1,11 @@
-import type { Hono } from 'hono'
+import type { OpenAPIHono } from '@hono/zod-openapi'
 import { afterEach, beforeEach, describe, expect, it } from 'vitest'
 import { createApp } from '../src/app.ts'
 import { createStore, type Store } from '../src/store.ts'
 
 describe('api', () => {
   let store: Store
-  let app: Hono
+  let app: OpenAPIHono
 
   beforeEach(() => {
     store = createStore(':memory:')

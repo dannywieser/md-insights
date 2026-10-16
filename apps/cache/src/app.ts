@@ -1,85 +1,144 @@
-import { Hono } from 'hono'
+import { OpenAPIHono, createRoute } from '@hono/zod-openapi'
 import { bodyLimit } from 'hono/body-limit'
 import { cors } from 'hono/cors'
-import type { NoteInput, Store } from './store.ts'
+import { HTTPException } from 'hono/http-exception'
+import {
+  ErrorSchema,
+  HealthSchema,
+  IdParamSchema,
+  ListQuerySchema,
+  NoteRowsSchema,
+  NoteSchema,
+  UpsertBodySchema,
+  UpsertResultSchema,
+} from './schemas.ts'
+import type { Store } from './store.ts'
 
 const MAX_BODY_BYTES = 64 * 1024 * 1024
 
-class BadRequest extends Error {}
+const jsonContent = <T extends typeof ErrorSchema | typeof NoteRowsSchema>(schema: T) => ({
+  'application/json': { schema },
+})
 
-function isRecord(value: unknown): value is Record<string, unknown> {
-  return typeof value === 'object' && value !== null && !Array.isArray(value)
+const badRequest = {
+  description: 'invalid input',
+  content: jsonContent(ErrorSchema),
 }
 
-/** IDs and field names are joined as `<id>/<field>`, so they are non-empty and slash-free. */
-function isName(value: unknown): value is string {
-  return typeof value === 'string' && value.length > 0 && !value.includes('/')
-}
+const healthRoute = createRoute({
+  method: 'get',
+  path: '/health',
+  operationId: 'getHealth',
+  summary: 'liveness check',
+  responses: {
+    200: {
+      description: 'service is up',
+      content: { 'application/json': { schema: HealthSchema } },
+    },
+  },
+})
 
-function parseNotes(payload: unknown): NoteInput[] {
-  if (!isRecord(payload) || !Array.isArray(payload.notes)) {
-    throw new BadRequest('body must be { "notes": [{ "id": string, "fields": { name: string } }] }')
-  }
-  return payload.notes.map((note: unknown, index) => {
-    if (!isRecord(note) || !isName(note.id)) {
-      throw new BadRequest(`notes[${index}].id must be a non-empty string without "/"`)
-    }
-    if (!isRecord(note.fields)) {
-      throw new BadRequest(`notes[${index}].fields must be an object`)
-    }
-    const fields: Record<string, string> = {}
-    for (const [name, value] of Object.entries(note.fields)) {
-      if (!isName(name) || typeof value !== 'string') {
-        throw new BadRequest(
-          `notes[${index}].fields: names must be non-empty without "/" and values strings`,
-        )
-      }
-      fields[name] = value
-    }
-    return { id: note.id, fields }
+const upsertRoute = createRoute({
+  method: 'put',
+  path: '/notes',
+  operationId: 'upsertNotes',
+  summary: 'upsert a batch of notes; only the named fields are written',
+  middleware: [bodyLimit({ maxSize: MAX_BODY_BYTES })],
+  request: {
+    body: { required: true, content: { 'application/json': { schema: UpsertBodySchema } } },
+  },
+  responses: {
+    200: {
+      description: 'number of notes upserted',
+      content: { 'application/json': { schema: UpsertResultSchema } },
+    },
+    400: badRequest,
+  },
+})
+
+const listRoute = createRoute({
+  method: 'get',
+  path: '/notes',
+  operationId: 'listNotes',
+  summary: 'list notes with the requested fields, ordered by id',
+  request: { query: ListQuerySchema },
+  responses: {
+    200: { description: 'one row per note', content: jsonContent(NoteRowsSchema) },
+    400: badRequest,
+  },
+})
+
+const getRoute = createRoute({
+  method: 'get',
+  path: '/notes/{id}',
+  operationId: 'getNote',
+  summary: 'all fields of one note',
+  request: { params: IdParamSchema },
+  responses: {
+    200: { description: 'the note', content: { 'application/json': { schema: NoteSchema } } },
+    404: { description: 'unknown note', content: jsonContent(ErrorSchema) },
+  },
+})
+
+const deleteRoute = createRoute({
+  method: 'delete',
+  path: '/notes/{id}',
+  operationId: 'deleteNote',
+  summary: 'remove a note; succeeds even if it did not exist',
+  request: { params: IdParamSchema },
+  responses: {
+    204: { description: 'note removed' },
+  },
+})
+
+export function createApp(store: Store): OpenAPIHono {
+  const app = new OpenAPIHono({
+    defaultHook: (result, c) => {
+      if (result.success) return undefined
+      const message = result.error.issues
+        .map((issue) => `${issue.path.join('.') || 'input'}: ${issue.message}`)
+        .join('; ')
+      return c.json({ error: message }, 400)
+    },
   })
-}
-
-export function createApp(store: Store): Hono {
-  const app = new Hono()
 
   app.use(cors())
 
   app.onError((error, c) => {
-    if (error instanceof BadRequest) return c.json({ error: error.message }, 400)
+    if (error instanceof HTTPException) return c.json({ error: error.message }, error.status)
     console.error(error)
     return c.json({ error: 'internal error' }, 500)
   })
 
-  app.get('/health', (c) => c.json({ ok: true }))
+  app.openapi(healthRoute, (c) => c.json({ ok: true as const }, 200))
 
-  app.put('/notes', bodyLimit({ maxSize: MAX_BODY_BYTES }), async (c) => {
-    let payload: unknown
-    try {
-      payload = await c.req.json()
-    } catch {
-      throw new BadRequest('body must be valid JSON')
-    }
-    const notes = parseNotes(payload)
+  app.openapi(upsertRoute, (c) => {
+    const { notes } = c.req.valid('json')
     store.upsertNotes(notes)
-    return c.json({ upserted: notes.length })
+    return c.json({ upserted: notes.length }, 200)
   })
 
-  app.get('/notes', (c) => {
-    const fields = (c.req.query('fields') ?? '').split(',').filter((name) => name.length > 0)
+  app.openapi(listRoute, (c) => {
+    const fields = c.req
+      .valid('query')
+      .fields.split(',')
+      .filter((name) => name.length > 0)
     if (fields.length === 0) {
-      throw new BadRequest('fields is required, e.g. ?fields=title,synced')
+      return c.json({ error: 'fields is required, e.g. ?fields=title,synced' }, 400)
     }
-    return c.json(store.listNotes(fields).map((note) => ({ ...note.fields, id: note.id })))
+    return c.json(
+      store.listNotes(fields).map((note) => ({ ...note.fields, id: note.id })),
+      200,
+    )
   })
 
-  app.get('/notes/:id', (c) => {
-    const fields = store.getNote(c.req.param('id'))
-    return fields ? c.json({ fields }) : c.json({ error: 'not found' }, 404)
+  app.openapi(getRoute, (c) => {
+    const fields = store.getNote(c.req.valid('param').id)
+    return fields ? c.json({ fields }, 200) : c.json({ error: 'not found' }, 404)
   })
 
-  app.delete('/notes/:id', (c) => {
-    store.deleteNote(c.req.param('id'))
+  app.openapi(deleteRoute, (c) => {
+    store.deleteNote(c.req.valid('param').id)
     return c.body(null, 204)
   })
 
