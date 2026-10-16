@@ -102,3 +102,15 @@ commit and proceed
 
 ### [2026-10-16 18:12:00] Claude
 Committed step 2 (7fd2d61). Step 3 done: added `apps/cache/src/openapi.ts` (`buildOpenApiJson()`, builds the app on an in-memory store), `apps/cache/scripts/generate-openapi.ts` (writes `apps/cache/openapi.json`), `pnpm --filter @md-insights/cache openapi` script, `tests/openapi.test.ts` (committed file must equal generated), `scripts` added to the cache tsconfig. Deviations: gave the schemas `.meta({ id })` (NoteInput, UpsertBody, UpsertResult, NoteRow, Note, Health, Error) so the spec has named components and the client gets named types; added `apps/cache/openapi.json` to `.prettierignore` because prettier reformats the generated JSON and the staleness test compares exact bytes. 31 tests pass; typecheck, eslint, prettier clean. Paused before step 4.
+
+### [2026-10-16 18:15:00] User
+commit and proceed
+
+### [2026-10-16 18:25:00] Claude
+Committed step 3 (0c7c918). Step 4 done: scaffolded `packages/api-client` (`package.json` with export `./cache` -> `src/cache/index.ts`, `generate` script running `openapi-ts`, peer deps react + @tanstack/react-query, dependency zod 4.6.7, dev deps @hey-api/openapi-ts 0.99.0, @tanstack/react-query 5.104.3, vitest etc.; `tsconfig.json`; `vitest.config.ts`). Ignore entries for `packages/api-client/src/generated/` added to `.gitignore`, `.prettierignore` and `eslint.config.js` (this pulls forward the ignore part of step 7). Install ok; typecheck and eslint clean. No generator config yet. Paused before step 5.
+
+### [2026-10-16 18:32:00] User
+this wasn't in the plan, but I see that we're ending up with duplicated deps across packages that should be moved into a catalog - mainly zod for this session
+
+### [2026-10-16 18:32:30] Claude
+Deviation from plan: added a pnpm `catalog:` to `pnpm-workspace.yaml` with `zod: 4.6.7`; `apps/cache` and `packages/api-client` now use `"zod": "catalog:"`. Install, cache typecheck and cache tests (31) pass. Other duplicated deps (react, react-dom, vitest, jsdom, @types/*, tailwindcss, testing-library) left as is for now. To do in step 9: document the catalog convention in `CLAUDE.md`.
