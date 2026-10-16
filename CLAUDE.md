@@ -1,6 +1,6 @@
 # md-insights
 
-Homelab TypeScript/Node project: loads markdown notes (a folder of `.md` files or a Bear DB) into a cache for analysis of content, relationships and structure. Currently the web app (a note grid of fake data), an Electron app (hello world: pick a folder, count its `.md` files), a design viewer and a shared UI package exist; a cache service is planned.
+Homelab TypeScript/Node project: loads markdown notes (a folder of `.md` files or a Bear DB) into a cache for analysis of content, relationships and structure. Currently the web app (a note grid of fake data), an Electron app (hello world: pick a folder, count its `.md` files), a design viewer, a shared UI package and a local note cache service (notes API over SQLite) exist; wiring the apps to the cache is planned.
 
 ## Commands
 
@@ -8,6 +8,7 @@ Run from the repo root with pnpm:
 
 - `pnpm dev` - web app dev server (port 5173)
 - `pnpm dev:design` - design viewer dev server (port 5174)
+- `pnpm dev:cache` - note cache service (port 8787, SQLite file in `apps/cache/data/`); see `apps/cache/README.md` for the API and curl examples
 - `pnpm dev:electron` - Electron app (electron-vite); its renderer also uses port 5173, so it cannot run together with `pnpm dev`
 - `pnpm build` / `pnpm typecheck` / `pnpm test` - run across all workspaces
 - `pnpm lint` - ESLint with typed rules
@@ -19,6 +20,7 @@ Before finishing a change, run `pnpm format`, `pnpm lint`, `pnpm typecheck` and 
 
 - `apps/web` - React + Vite app (`@md-insights/web`)
 - `apps/electron` - Electron app built with electron-vite (`@md-insights/electron`): `src/main` (node), `src/preload`, `src/renderer` (React), `src/shared/ipc.ts` (the IPC contract)
+- `apps/cache` - Hono + `node:sqlite` note cache service (`@md-insights/cache`): `src/store.ts` (SQLite), `src/app.ts` (routes), `src/index.ts` (server)
 - `apps/design` - design-board viewer for the theme tokens and shared components (`@md-insights/design`); display only, tokens live in `packages/ui`
 - `packages/ui` - shared shadcn components, Solarized light/dark Tailwind v4 theme (Space Mono via `@fontsource`) and `cn` helper (`@md-insights/ui`); exports TypeScript source, no build step
 - `demo/` - small committed set of markdown notes (18 counted, plus non-notes and a `.hidden/` dir) used as a scan target and test fixture; its README states the expected counts
@@ -39,6 +41,7 @@ New apps go in `apps/*`, shared code in `packages/*`.
 - Any app that uses the UI package needs `@source` for `packages/ui/src` in its CSS so Tailwind sees the class names.
 - Electron IPC: every channel, payload type and the `window.api` shape live in `apps/electron/src/shared/ipc.ts`; main registers handlers, preload only forwards, the renderer sees just `window.api`. Keep `contextIsolation` and `sandbox` on, `nodeIntegration` off. Filesystem work stays in main. A sandboxed preload must be CommonJS, hence the `.cjs` output in `electron.vite.config.ts`; `Api` members are function-typed properties (not methods) to satisfy `unbound-method`.
 - `apps/electron` has two tsconfigs so each side only sees its own environment: `tsconfig.node.json` (main, preload, shared, `tests/main`) and `tsconfig.web.json` (renderer, shared, `tests/renderer`). Put new tests in the matching folder. The Electron binary is downloaded on first run, not at install.
+- `apps/cache` runs TypeScript directly with Node's type stripping (no build step): use `.ts` import extensions and erasable syntax only (no enums or namespaces). Notes are stored as `(note_id, field, value)` rows; `synced` is the one field the service stamps itself. Keep `node:sqlite` inside `store.ts` (it is still experimental).
 - TypeScript is pinned to 6.0.x because typescript-eslint does not support TypeScript 7. Do not upgrade `typescript` until it does.
 - Prettier: no semicolons, single quotes, trailing commas, 100 columns. 2-space indent, LF.
 - Don't commit unless asked.

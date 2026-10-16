@@ -43,3 +43,4 @@ New sessions are appended to the bottom of this table.
 | [20261015-05-notes-grid-into-web-app](20261015-05-notes-grid-into-web-app/) | notes grid into web app | complete | 2026-10-15 |
 | [20261015-06-bugfix-focus-border-in-notes-grid](20261015-06-bugfix-focus-border-in-notes-grid/) | bugfix: focus border in notes grid | complete | 2026-10-15 |
 | [20261016-01-bootstrap-electron-app](20261016-01-bootstrap-electron-app/) | bootstrap electron app | complete | 2026-10-16 |
+| [20261016-02-note-cache-service](20261016-02-note-cache-service/) | note cache service | planned | 2026-10-16 |

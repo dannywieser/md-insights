@@ -1,0 +1,93 @@
+import { DatabaseSync } from 'node:sqlite'
+
+/** Field the service writes itself on every upsert; client values for it are overwritten. */
+export const SYNCED_FIELD = 'synced'
+
+export type Fields = Record<string, string>
+
+export interface NoteInput {
+  id: string
+  fields: Fields
+}
+
+export interface Store {
+  upsertNotes: (notes: NoteInput[]) => void
+  deleteNote: (id: string) => void
+  listNotes: (fields: string[]) => NoteInput[]
+  getNote: (id: string) => Fields | null
+  close: () => void
+}
+
+interface FieldRow {
+  note_id: string
+  field: string
+  value: string
+}
+
+export function createStore(path: string): Store {
+  const db = new DatabaseSync(path)
+  db.exec('PRAGMA journal_mode = WAL')
+  db.exec(`
+    CREATE TABLE IF NOT EXISTS note_fields (
+      note_id TEXT NOT NULL,
+      field TEXT NOT NULL,
+      value TEXT NOT NULL,
+      PRIMARY KEY (note_id, field)
+    ) WITHOUT ROWID
+  `)
+
+  const upsert = db.prepare(
+    `INSERT INTO note_fields (note_id, field, value) VALUES (?, ?, ?)
+     ON CONFLICT (note_id, field) DO UPDATE SET value = excluded.value`,
+  )
+  const remove = db.prepare('DELETE FROM note_fields WHERE note_id = ?')
+  const selectAll = db.prepare(
+    'SELECT note_id, field, value FROM note_fields ORDER BY note_id, field',
+  )
+  const selectOne = db.prepare('SELECT field, value FROM note_fields WHERE note_id = ?')
+
+  return {
+    upsertNotes(notes) {
+      const syncedAt = new Date().toISOString()
+      db.exec('BEGIN')
+      try {
+        for (const { id, fields } of notes) {
+          for (const [field, value] of Object.entries(fields)) {
+            if (field !== SYNCED_FIELD) upsert.run(id, field, value)
+          }
+          upsert.run(id, SYNCED_FIELD, syncedAt)
+        }
+        db.exec('COMMIT')
+      } catch (error) {
+        db.exec('ROLLBACK')
+        throw error
+      }
+    },
+
+    deleteNote(id) {
+      remove.run(id)
+    },
+
+    listNotes(fields) {
+      const wanted = new Set(fields)
+      const notes = new Map<string, Fields>()
+      for (const row of selectAll.all() as unknown as FieldRow[]) {
+        if (!wanted.has(row.field)) continue
+        const note = notes.get(row.note_id) ?? {}
+        note[row.field] = row.value
+        notes.set(row.note_id, note)
+      }
+      return [...notes].map(([id, fields]) => ({ id, fields }))
+    },
+
+    getNote(id) {
+      const rows = selectOne.all(id) as unknown as Omit<FieldRow, 'note_id'>[]
+      if (rows.length === 0) return null
+      return Object.fromEntries(rows.map((row) => [row.field, row.value]))
+    },
+
+    close() {
+      db.close()
+    },
+  }
+}

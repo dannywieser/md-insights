@@ -1,0 +1,100 @@
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
+import { createStore, type Store } from '../src/store.ts'
+
+describe('store', () => {
+  let store: Store
+
+  beforeEach(() => {
+    store = createStore(':memory:')
+  })
+
+  afterEach(() => {
+    store.close()
+    vi.useRealTimers()
+  })
+
+  it('stores and returns all fields of a note', () => {
+    store.upsertNotes([{ id: 'abc123', fields: { title: 'plan', body: 'raised beds' } }])
+    expect(store.getNote('abc123')).toMatchObject({ title: 'plan', body: 'raised beds' })
+  })
+
+  it('returns null for an unknown note', () => {
+    expect(store.getNote('nope')).toBeNull()
+  })
+
+  it('merges fields on upsert and leaves other fields alone', () => {
+    store.upsertNotes([{ id: 'a', fields: { title: 'one', body: 'text' } }])
+    store.upsertNotes([{ id: 'a', fields: { title: 'two' } }])
+    expect(store.getNote('a')).toMatchObject({ title: 'two', body: 'text' })
+  })
+
+  it('stamps synced on insert and update', () => {
+    vi.useFakeTimers()
+    vi.setSystemTime(new Date('2026-10-16T10:00:00.000Z'))
+    store.upsertNotes([{ id: 'a', fields: { title: 'one' } }])
+    expect(store.getNote('a')?.synced).toBe('2026-10-16T10:00:00.000Z')
+
+    vi.setSystemTime(new Date('2026-10-17T11:30:00.000Z'))
+    store.upsertNotes([{ id: 'a', fields: { title: 'two' } }])
+    expect(store.getNote('a')?.synced).toBe('2026-10-17T11:30:00.000Z')
+  })
+
+  it('overrides a client-sent synced value', () => {
+    vi.useFakeTimers()
+    vi.setSystemTime(new Date('2026-10-16T10:00:00.000Z'))
+    store.upsertNotes([{ id: 'a', fields: { synced: 'yesterday' } }])
+    expect(store.getNote('a')?.synced).toBe('2026-10-16T10:00:00.000Z')
+  })
+
+  it('uses one timestamp for a whole batch', () => {
+    store.upsertNotes([
+      { id: 'a', fields: { title: 'one' } },
+      { id: 'b', fields: { title: 'two' } },
+    ])
+    expect(store.getNote('a')?.synced).toBe(store.getNote('b')?.synced)
+  })
+
+  it('lists only the requested fields, one item per note', () => {
+    store.upsertNotes([
+      { id: 'a', fields: { title: 'plan', body: 'long text' } },
+      { id: 'b', fields: { title: 'plants', body: 'more text' } },
+    ])
+    expect(store.listNotes(['title'])).toEqual([
+      { id: 'a', fields: { title: 'plan' } },
+      { id: 'b', fields: { title: 'plants' } },
+    ])
+  })
+
+  it('omits notes that have none of the requested fields and ignores unknown fields', () => {
+    store.upsertNotes([
+      { id: 'a', fields: { title: 'plan' } },
+      { id: 'b', fields: { body: 'only body' } },
+    ])
+    expect(store.listNotes(['title', 'missing'])).toEqual([{ id: 'a', fields: { title: 'plan' } }])
+  })
+
+  it('deletes a note with all its fields', () => {
+    store.upsertNotes([
+      { id: 'a', fields: { title: 'one' } },
+      { id: 'b', fields: { title: 'two' } },
+    ])
+    store.deleteNote('a')
+    expect(store.getNote('a')).toBeNull()
+    expect(store.getNote('b')).not.toBeNull()
+  })
+
+  it('lists notes ordered by id, keeping digit-only ids in place', () => {
+    store.upsertNotes([
+      { id: 'b', fields: { title: 'x' } },
+      { id: '9', fields: { title: 'x' } },
+      { id: 'a', fields: { title: 'x' } },
+    ])
+    expect(store.listNotes(['title']).map((note) => note.id)).toEqual(['9', 'a', 'b'])
+  })
+
+  it('treats deleting an unknown note as a no-op', () => {
+    expect(() => {
+      store.deleteNote('nope')
+    }).not.toThrow()
+  })
+})
