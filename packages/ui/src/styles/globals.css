@@ -45,11 +45,29 @@
   --radius: 0;
 
   --grid-size: 16px;
+
+  --note-mute: var(--sol-base1);
+  --note-0: color-mix(in srgb, var(--sol-red) 55%, var(--note-mute));
+  --note-1: color-mix(in srgb, var(--sol-orange) 55%, var(--note-mute));
+  --note-2: color-mix(in srgb, var(--sol-yellow) 55%, var(--note-mute));
+  --note-3: color-mix(in srgb, var(--sol-green) 55%, var(--note-mute));
+  --note-4: color-mix(
+    in srgb,
+    color-mix(in srgb, var(--sol-green) 50%, var(--sol-cyan)) 55%,
+    var(--note-mute)
+  );
+  --note-5: color-mix(in srgb, var(--sol-cyan) 55%, var(--note-mute));
+  --note-6: color-mix(in srgb, var(--sol-blue) 55%, var(--note-mute));
+  --note-7: color-mix(in srgb, var(--sol-violet) 55%, var(--note-mute));
+  --note-8: color-mix(in srgb, var(--sol-magenta) 55%, var(--note-mute));
+  --note-9: var(--sol-base00);
+
   --grid-line: color-mix(in srgb, var(--sol-base1) 25%, transparent);
   --grid-line-major: color-mix(in srgb, var(--sol-base1) 45%, transparent);
 }
 
 .dark {
+  --note-mute: var(--sol-base01);
   --background: var(--sol-base03);
   --foreground: var(--sol-base0);
   --card: var(--sol-base02);
@@ -160,4 +178,63 @@
   body {
     @apply bg-background bg-grid text-foreground;
   }
+}
+
+/* note squares: --c is the note colour; lines between squares are opaque so they read on any fill. */
+.note-square {
+  fill: var(--c);
+  stroke: color-mix(in srgb, var(--sol-base1) 60%, var(--card));
+  stroke-width: 1;
+}
+.note-square[data-color='0'] {
+  --c: var(--note-0);
+}
+.note-square[data-color='1'] {
+  --c: var(--note-1);
+}
+.note-square[data-color='2'] {
+  --c: var(--note-2);
+}
+.note-square[data-color='3'] {
+  --c: var(--note-3);
+}
+.note-square[data-color='4'] {
+  --c: var(--note-4);
+}
+.note-square[data-color='5'] {
+  --c: var(--note-5);
+}
+.note-square[data-color='6'] {
+  --c: var(--note-6);
+}
+.note-square[data-color='7'] {
+  --c: var(--note-7);
+}
+.note-square[data-color='8'] {
+  --c: var(--note-8);
+}
+.note-square[data-color='9'] {
+  --c: var(--note-9);
+}
+
+/* empty cells that complete the last row: card colour (white in light mode) with the same gridlines. */
+.note-placeholder {
+  fill: var(--card);
+  stroke: color-mix(in srgb, var(--sol-base1) 60%, var(--card));
+  stroke-width: 1;
+}
+
+/* black outline around the whole grid. */
+.note-border {
+  fill: none;
+  stroke: #000;
+  stroke-width: 2;
+}
+
+/* outline on the hovered cell; sits above the border and gridlines. */
+.note-hover {
+  fill: none;
+  stroke: #000;
+  stroke-width: 2;
+  pointer-events: none;
 }

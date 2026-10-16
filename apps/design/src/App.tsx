@@ -2,6 +2,7 @@ import { AppHeader, Button } from '@md-insights/ui'
 import { Components } from './sections/Components'
 import { Grid } from './sections/Grid'
 import { Guidelines } from './sections/Guidelines'
+import { NoteGridDemo } from './sections/NoteGridDemo'
 import { Palette } from './sections/Palette'
 import { Spacing } from './sections/Spacing'
 import { Typography } from './sections/Typography'
@@ -24,6 +25,7 @@ export function App() {
         <Spacing />
         <Grid />
         <Components />
+        <NoteGridDemo />
       </main>
     </div>
   )
