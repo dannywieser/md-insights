@@ -168,3 +168,24 @@ Committed step 4 ("Add electron main process and preload"), then did step 5.
 
 ### [2026-10-16 06:48:10] Claude
 Step 5 (renderer) done. Files: `apps/electron/src/renderer/index.html` (strict CSP meta), `src/main.tsx`, `src/index.css` (ui globals + @source), `src/env.d.ts` (window.api: Api), `src/App.tsx` (header, "choose folder" button, chosen path, live "scanning…" progress, final "N notes", error state; subscribes to progress per scan and unsubscribes in finally), `tests/renderer/App.test.tsx` (5 tests with a stubbed window.api: render, pick+scan+count, progress then final, cancel, error). Deviation: `Api` in shared/ipc.ts changed from method signatures to function-typed properties to satisfy the unbound-method lint rule. Results: 9 tests pass, typecheck clean, lint clean, `pnpm --filter @md-insights/electron build` succeeds (full build incl. renderer). Risk to check at step 6: the CSP meta may block the dev-mode react-refresh inline preamble. Not committed. Paused for review.
+
+### [2026-10-16 06:51:28] User
+commit and continue to step 6
+
+### [2026-10-16 06:51:28] Decision
+Committed step 5 ("Add electron renderer with folder note count"), then did step 6.
+
+### [2026-10-16 06:51:28] Claude
+Step 6 (run it) done, driven over the Chrome DevTools protocol (started `electron-vite dev -- --remote-debugging-port=9222`). Native folder dialog can't be automated, so the picker click was not exercised; everything behind it was. Results: window opens and renders themed UI (screenshot checked: wordmark, grid-paper background, card with crop marks and hard shadow, lowercase "hello, notes" + "choose folder"); no console errors, so the strict CSP does not block dev mode; `window.api` exposes exactly pickFolder/scanFolder/onScanProgress; `require`/`process` are undefined in the renderer (isolation holds); `scanFolder(demo)` returned mdCount 18 with progress events [{dirs:3,mdFiles:6},{dirs:9,mdFiles:18}]; a relative path was rejected with "expected an absolute folder path". Observation: electron-vite's renderer dev server uses port 5173, the same as the web app's `pnpm dev`, so the two can't run together (Vite would pick another port for one of them, but electron-vite expects its own). Dev server stopped. Not committed (no changes since step 5 except this log). Paused for review.
+
+### [2026-10-16 06:52:45] User
+continue to step 7
+
+### [2026-10-16 06:52:45] Claude
+Step 7 (gate) done. `pnpm format:check`, `pnpm lint`, `pnpm typecheck`, `pnpm test` (ui 47, electron 9, web 4, design 4) and `pnpm build` all pass across the repo. Deviation / correction to step 1: Electron 44 has no install script (its binary downloads lazily on first run, via `install.js`), so the `onlyBuiltDependencies` block I added to `pnpm-workspace.yaml` was unnecessary. Removed it; a forced clean `pnpm install` shows no ignored-build warnings and the electron build still passes. This also retires the plan's first-install risk: a fresh clone needs only `pnpm install`, and the first `pnpm dev:electron` downloads the binary. Uncommitted: the `pnpm-workspace.yaml` revert and this log. Implementation is complete; user can type /create-complete.
+
+### [2026-10-16 06:54:00] User
+commit this, then I'll run /create-complete
+
+### [2026-10-16 06:54:00] Decision
+Committing the pnpm-workspace.yaml revert and the log. Next: user runs /create-complete.
