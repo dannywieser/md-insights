@@ -2,7 +2,7 @@
 
 A homelab project that loads markdown notes (a folder of `.md` files or a Bear database) into a cache so their content, relationships and structure can be analyzed.
 
-Currently a bootstrap: a pnpm monorepo with a web app whose landing page shows a grid of 5000 fake notes, an Electron app that counts the markdown files in a chosen folder, a design viewer app and a shared UI package.
+Currently a bootstrap: a pnpm monorepo with a web app whose landing page shows a grid of 5000 fake notes, an Electron app that counts the markdown files in a chosen folder, a note cache service (notes API over SQLite, not yet connected to the apps), a design viewer app and a shared UI package.
 
 ## Prerequisites
 
@@ -16,6 +16,7 @@ pnpm install
 pnpm dev          # web app on http://localhost:5173
 pnpm dev:design   # design viewer on http://localhost:5174
 pnpm dev:electron # Electron app (downloads the Electron binary on first run)
+pnpm dev:cache    # note cache service on http://localhost:8787 (see apps/cache/README.md)
 ```
 
 The web app and the Electron app both use port 5173, so run one at a time. In the Electron app, choose the `demo/` folder to see the count of 18.
@@ -29,6 +30,7 @@ Run from the repo root.
 | `pnpm dev`          | Start the web app dev server         |
 | `pnpm dev:design`   | Start the design viewer (port 5174)  |
 | `pnpm dev:electron` | Start the Electron app               |
+| `pnpm dev:cache`    | Start the note cache service         |
 | `pnpm build`        | Typecheck and build every workspace  |
 | `pnpm typecheck`    | Run `tsc` in every workspace         |
 | `pnpm test`         | Run Vitest in every workspace        |
@@ -41,6 +43,7 @@ Run from the repo root.
 ```
 apps/web/        React + Vite web app
 apps/electron/   Electron app (electron-vite): main, preload, renderer, shared IPC contract
+apps/cache/      Note cache service (Hono + node:sqlite): notes API, see its README
 apps/design/     Design-board viewer for the theme and shared components
 packages/ui/     @md-insights/ui: shared shadcn components, theme and styles
 demo/            Small committed set of markdown notes for trying and testing
