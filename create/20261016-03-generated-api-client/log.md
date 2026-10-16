@@ -134,3 +134,9 @@ ok, commit and proceed
 
 ### [2026-10-16 19:20:00] Claude
 Committed the row-shape change and generator config (76321a6). Step 6 done: `packages/api-client/src/cache/index.ts` re-exports the generated SDK, types, zod schemas and react-query helpers, exports `cacheClient` and `configureCacheClient({ baseUrl, fetch? })`; `tests/cache.test.ts` (6 tests, stubbed fetch, no server): list rows keep `fields`, schemas reject slash/empty ids and non-string values, SDK sends to the configured base URL, rejects an invalid request before fetching, rejects a mismatching response, query options carry the key. Deviation: test file name `cache.test.ts` as planned; test names differ from the plan's smoke test only in scope. Typecheck, eslint, prettier clean. Paused before step 7.
+
+### [2026-10-16 19:25:00] User
+commit and proceed
+
+### [2026-10-16 19:35:00] Claude
+Committed step 6 (9ebce1b). Step 7 done: root `package.json` gains `generate` and `openapi` scripts; `build`, `typecheck`, `test` and `lint` now run `pnpm generate` first. (pnpm does not run pre-scripts by default, so they are chained.) Verified from a clean state (generated dir deleted): typecheck, lint, test (api-client 6, cache 31, ui 47, electron 9, design 4, web 4) and build all pass; format:check clean. Ignore entries were already done in step 4. Paused before step 8.
