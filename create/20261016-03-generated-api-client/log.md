@@ -78,3 +78,9 @@ commit the open files first and then do step 1
 
 ### [2026-10-16 17:36:10] Claude
 Committing the session folder and index, then starting step 1.
+
+### [2026-10-16 17:45:00] Decision
+Committed the session folder (984e99e). Approach: step by step; pause after each numbered step.
+
+### [2026-10-16 17:45:10] Claude
+Step 1 done. Added `zod` 4.6.7 and `@hono/zod-openapi` 1.6.3 (pinned exact, per repo convention) to `apps/cache/package.json`; wrote `apps/cache/src/schemas.ts` (name/id/fields/note input/upsert body+result/list query/row/note/param/health/error schemas). Sanity-checked: accepts valid payloads, rejects names containing "/". Typecheck and eslint clean. No deviations. Paused before step 2.
