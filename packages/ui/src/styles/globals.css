@@ -224,17 +224,10 @@
   stroke-width: 1;
 }
 
-/* black outline around the whole grid. */
-.note-border {
-  fill: none;
-  stroke: #000;
-  stroke-width: 2;
-}
-
-/* outline on the hovered cell; sits above the border and gridlines. */
+/* outline on the hovered cell; thicker than the gridlines and centred on the cell edge, so on an edge cell it reaches past the grid. */
 .note-hover {
   fill: none;
   stroke: #000;
-  stroke-width: 2;
+  stroke-width: 4;
   pointer-events: none;
 }

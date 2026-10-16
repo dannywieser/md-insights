@@ -90,12 +90,12 @@ function NoteGrid({ notes, height: fixedHeight, frame, inset = 0, className }: N
         aria-label={`${notes.length} notes`}
         width={gridWidth + 3}
         height={gridHeight + 3}
+        className="overflow-visible"
         shapeRendering="crispEdges"
         onPointerMove={handlePointerMove}
         onPointerLeave={() => setHovered(null)}
       >
         <Cells notes={notes} columns={columns} cell={cell} />
-        <rect className="note-border" x={1} y={1} width={gridWidth + 1} height={gridHeight + 1} />
         {active !== null && (
           <rect
             className="note-hover"

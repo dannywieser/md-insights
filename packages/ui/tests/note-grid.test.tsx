@@ -132,7 +132,7 @@ describe('NoteGrid', () => {
     expect(squareSize(5)).toBeGreaterThan(squareSize(100))
   })
 
-  it('sizes the grid to its cells plus the border', () => {
+  it('sizes the grid to its cells plus the gridline margin', () => {
     const { container } = render(<NoteGrid notes={makeNotes(2)} />)
     const svg = container.querySelector('svg')
     const cell = Number(container.querySelector('.note-square')?.getAttribute('width'))
@@ -152,10 +152,16 @@ describe('NoteGrid', () => {
     expect(container.querySelectorAll('.note-placeholder').length).toBeGreaterThan(0)
   })
 
-  it('draws a border around the grid', () => {
+  it('has no border around the grid, so the hover outline stands alone', () => {
     const { container } = render(<NoteGrid notes={makeNotes(5)} />)
 
-    expect(container.querySelector('.note-border')).not.toBeNull()
+    expect(container.querySelector('.note-border')).toBeNull()
+  })
+
+  it('lets the hover outline extend past the svg so it is not clipped on edge cells', () => {
+    const { container } = render(<NoteGrid notes={makeNotes(5)} />)
+
+    expect(container.querySelector('svg')).toHaveClass('overflow-visible')
   })
 
   it('is the bare grid, not a card', () => {
