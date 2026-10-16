@@ -126,3 +126,18 @@ Implementation approach: step by step, pausing after each numbered step of plan.
 
 ### [2026-10-16 06:32:28] Claude
 Step 1 (scaffold) done. Files: `apps/electron/{package.json,tsconfig.json,tsconfig.node.json,tsconfig.web.json,electron.vite.config.ts,vitest.config.ts,tests/setup.ts}`, empty src dirs, root `package.json` (+ `dev:electron`), `pnpm-workspace.yaml` (`onlyBuiltDependencies: electron, esbuild`), lockfile. Versions: electron 44.8.0, electron-vite 6.0.0 (peer vite ^8 OK). Deviation: the plan said electron's postinstall might be blocked; it was, and allowing it in `onlyBuiltDependencies` plus `pnpm install`/`pnpm rebuild` did NOT download the binary, so I ran `node install.js` inside the electron package once (binary now present). A fresh clone may need the same; to verify later. Typecheck not yet runnable (no sources). Paused for user review.
+
+### [2026-10-16 06:35:55] User
+code looks good, anything I can test right now?
+
+### [2026-10-16 06:35:55] Claude
+Nothing app-level yet; verified electron --version (v44.8.0), electron-vite 6.0.0 and lint clean. Earliest runnable app after steps 4-5, count visible at step 6; flagged the electron binary install caveat.
+
+### [2026-10-16 06:35:55] User
+ok, let's commit as a checkpoint and then continue
+
+### [2026-10-16 06:35:55] Decision
+Committed step 1 as a checkpoint ("Scaffold electron app workspace with electron-vite", including the create session folder). Continuing with step 2 (demo notes).
+
+### [2026-10-16 06:36:21] Claude
+Step 2 (demo notes) done. Created `demo/`: 18 countable .md files (README, inbox, projects/{index, md-insights/{overview, roadmap, ideas/cache-service}, garden/{plan, plants}}, journal/{2026-10-01..03, weekly/week-40}, reference/{markdown-cheatsheet, electron-notes, glossary, books/{reading-list, atomic-habits, deep-work}}), non-notes (`projects/md-insights/notes.txt`, `journal/todo.txt`, `reference/diagram.svg`), and `.hidden/{secret.md, old/archive.md}` (not counted). Mix of [[wikilinks]] and relative links. README states the expected count (18); `find` confirms 18. Deviation: README.md itself is one of the 18. Ran `pnpm format`. Not committed. Paused for review.
