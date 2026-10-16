@@ -126,10 +126,7 @@ export function createApp(store: Store): OpenAPIHono {
     if (fields.length === 0) {
       return c.json({ error: 'fields is required, e.g. ?fields=title,synced' }, 400)
     }
-    return c.json(
-      store.listNotes(fields).map((note) => ({ ...note.fields, id: note.id })),
-      200,
-    )
+    return c.json(store.listNotes(fields), 200)
   })
 
   app.openapi(getRoute, (c) => {

@@ -28,8 +28,10 @@ export const ListQuerySchema = z.object({
     .meta({ description: 'comma-separated field names to include', example: 'title,synced' }),
 })
 
-/** A list row is the requested fields plus the note id. */
-export const NoteRowSchema = z.object({ id: IdSchema }).catchall(z.string()).meta({ id: 'NoteRow' })
+/** A list row is the note id plus only the requested fields. */
+export const NoteRowSchema = z
+  .object({ id: IdSchema, fields: FieldsSchema })
+  .meta({ id: 'NoteRow' })
 
 export const NoteRowsSchema = z.array(NoteRowSchema)
 

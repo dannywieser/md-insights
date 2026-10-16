@@ -91,14 +91,23 @@
             "pattern": "^[^/]+$",
             "description": "client-chosen note id",
             "example": "abc123"
+          },
+          "fields": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "string"
+            },
+            "description": "string fields by name",
+            "example": {
+              "title": "plan",
+              "body": "raised beds"
+            }
           }
         },
         "required": [
-          "id"
-        ],
-        "additionalProperties": {
-          "type": "string"
-        }
+          "id",
+          "fields"
+        ]
       },
       "Note": {
         "type": "object",

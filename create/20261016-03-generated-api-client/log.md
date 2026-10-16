@@ -114,3 +114,17 @@ this wasn't in the plan, but I see that we're ending up with duplicated deps acr
 
 ### [2026-10-16 18:32:30] Claude
 Deviation from plan: added a pnpm `catalog:` to `pnpm-workspace.yaml` with `zod: 4.6.7`; `apps/cache` and `packages/api-client` now use `"zod": "catalog:"`. Install, cache typecheck and cache tests (31) pass. Other duplicated deps (react, react-dom, vitest, jsdom, @types/*, tailwindcss, testing-library) left as is for now. To do in step 9: document the catalog convention in `CLAUDE.md`.
+
+### [2026-10-16 18:35:00] User
+commit and proceed
+
+### [2026-10-16 18:50:00] Claude
+Committed step 4 (63f8691). Step 5 mostly done: `packages/api-client/openapi-ts.config.ts` (array of `{name, spec}` -> `src/generated/<name>`; plugins @hey-api/typescript, zod, @hey-api/sdk with `validator: true`, @hey-api/client-fetch, @tanstack/react-query). `pnpm generate` writes SDK (getHealth, listNotes, upsertNotes, deleteNote, getNote, each validating request and response), zod schemas, types, and react-query `*Options` / `*Mutation` / `*QueryKey` helpers (not `useX` hooks: used as `useQuery(listNotesOptions(...))`). Typecheck passes.
+
+Problem found: `zNoteRow` is generated as `z.object({ id })`, ignoring the spec's `additionalProperties: string`, and zod strips unknown keys, so `zNoteRow.parse({id:'a', title:'x'})` returns `{id:'a'}`. With response validation on, `listNotes` would drop every requested field. Options asked: A) change the list row shape to `{ id, fields: {...} }` (server + tests + README change; also removes the clash if a note has a field named `id`), B) keep the shape and patch the generated schema (e.g. post-process to `z.looseObject`/`catchall`). Waiting for the user's choice. Step 5 not closed.
+
+### [2026-10-16 19:00:00] User
+A
+
+### [2026-10-16 19:00:30] Claude
+Applied option A (deviation from plan, API change): `GET /notes` rows are now `{ id, fields: { ... } }`. Changed `NoteRowSchema` in `apps/cache/src/schemas.ts`, the list handler in `app.ts` (store rows returned as is), two assertions in `tests/api.test.ts`, the README row; regenerated `openapi.json` and the client. `zNoteRow` now has `id` + `fields` record, so response validation keeps the fields. 31 cache tests pass; typecheck and eslint clean for cache and api-client. Step 5 done. Paused before step 6.

@@ -47,18 +47,18 @@ describe('api', () => {
     const res = await app.request('/notes?fields=title')
     expect(res.status).toBe(200)
     expect(await res.json()).toEqual([
-      { id: 'abc123', title: 'plan' },
-      { id: 'def456', title: 'plants' },
+      { id: 'abc123', fields: { title: 'plan' } },
+      { id: 'def456', fields: { title: 'plants' } },
     ])
   })
 
   it('includes the server-stamped synced field', async () => {
     await put({ notes: [{ id: 'a', fields: { title: 'one', synced: 'client' } }] })
     const res = await app.request('/notes?fields=synced')
-    const [note] = (await res.json()) as { id: string; synced: string }[]
+    const [note] = (await res.json()) as { id: string; fields: { synced: string } }[]
     expect(note.id).toBe('a')
-    expect(new Date(note.synced).toISOString()).toBe(note.synced)
-    expect(note.synced).not.toBe('client')
+    expect(new Date(note.fields.synced).toISOString()).toBe(note.fields.synced)
+    expect(note.fields.synced).not.toBe('client')
   })
 
   it('requires fields on the list endpoint', async () => {

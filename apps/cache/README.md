@@ -21,13 +21,13 @@ Node prints an `ExperimentalWarning` for `node:sqlite` on start; that is expecte
 
 A note is an `id` (chosen by the client) plus string fields such as `title` and `body`. IDs and field names are non-empty and must not contain `/`.
 
-| request                       | does                                                                           |
-| ----------------------------- | ------------------------------------------------------------------------------ |
-| `PUT /notes`                  | upsert a batch: `{ "notes": [{ "id": "...", "fields": { "title": "..." } }] }` |
-| `GET /notes?fields=title,...` | an array of `{ "id", ...fields }`, ordered by id (`fields` is required)        |
-| `GET /notes/:id`              | all fields of one note as `{ "fields": { ... } }`, `404` if unknown            |
-| `DELETE /notes/:id`           | remove a note, `204` even if it did not exist                                  |
-| `GET /health`                 | `{ "ok": true }`                                                               |
+| request                       | does                                                                                                           |
+| ----------------------------- | -------------------------------------------------------------------------------------------------------------- |
+| `PUT /notes`                  | upsert a batch: `{ "notes": [{ "id": "...", "fields": { "title": "..." } }] }`                                 |
+| `GET /notes?fields=title,...` | an array of `{ "id", "fields": { ... } }` with only the requested fields, ordered by id (`fields` is required) |
+| `GET /notes/:id`              | all fields of one note as `{ "fields": { ... } }`, `404` if unknown                                            |
+| `DELETE /notes/:id`           | remove a note, `204` even if it did not exist                                                                  |
+| `GET /health`                 | `{ "ok": true }`                                                                                               |
 
 `PUT` only writes the fields it names; other stored fields of that note are kept. The service stamps `synced` (ISO 8601 UTC time of the upsert) on every upserted note and overwrites any `synced` the client sends. Errors are `{ "error": "..." }` with `400` for bad input.
 
