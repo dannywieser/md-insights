@@ -2,7 +2,7 @@ import { useCallback, useEffect, useState } from 'react'
 
 export type Theme = 'light' | 'dark'
 
-const STORAGE_KEY = 'md-insights-design-theme'
+const STORAGE_KEY = 'md-viz-design-theme'
 
 function readInitialTheme(): Theme {
   const stored = localStorage.getItem(STORAGE_KEY)

@@ -1,5 +1,5 @@
 import { readFileSync } from 'node:fs'
-import { layoutPixels } from '@md-insights/ui/lib/pixel-glyphs'
+import { layoutPixels } from '@md-viz/ui/lib/pixel-glyphs'
 
 const favicons = ['../public/favicon.svg', '../../design/public/favicon.svg']
 

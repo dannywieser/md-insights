@@ -1,5 +1,5 @@
 import type { ReactNode } from 'react'
-import { Card, CardContent, CardDescription, CardHeader } from '@md-insights/ui'
+import { Card, CardContent, CardDescription, CardHeader } from '@md-viz/ui'
 
 export function Section({
   title,

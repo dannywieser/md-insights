@@ -11,12 +11,12 @@ apps/cache/src (zod routes)  --pnpm openapi-->  apps/cache/openapi.json (committ
 
 - The server defines its routes and zod schemas (`@hono/zod-openapi`); that is the single source of truth.
 - `pnpm openapi` rewrites the committed spec from the routes. A cache test fails when the spec is stale.
-- `pnpm generate` turns every spec listed in `openapi-ts.config.ts` into a client. `build`, `typecheck`, `test` and `lint` at the repo root run it first. A workspace script run directly (for example `pnpm --filter @md-insights/web test`) needs `pnpm generate` to have run once on a fresh clone.
+- `pnpm generate` turns every spec listed in `openapi-ts.config.ts` into a client. `build`, `typecheck`, `test` and `lint` at the repo root run it first. A workspace script run directly (for example `pnpm --filter @md-viz/web test`) needs `pnpm generate` to have run once on a fresh clone.
 
 ## Using the cache client
 
 ```ts
-import { configureCacheClient, listNotes, listNotesOptions } from '@md-insights/api-client/cache'
+import { configureCacheClient, listNotes, listNotesOptions } from '@md-viz/api-client/cache'
 
 configureCacheClient({ baseUrl: 'http://localhost:8787' })
 

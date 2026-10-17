@@ -11,10 +11,10 @@
   },
   "iconLibrary": "lucide",
   "aliases": {
-    "components": "@md-insights/ui/components",
-    "utils": "@md-insights/ui/lib/utils",
-    "hooks": "@md-insights/ui/hooks",
-    "lib": "@md-insights/ui/lib",
-    "ui": "@md-insights/ui/components"
+    "components": "@md-viz/ui/components",
+    "utils": "@md-viz/ui/lib/utils",
+    "hooks": "@md-viz/ui/hooks",
+    "lib": "@md-viz/ui/lib",
+    "ui": "@md-viz/ui/components"
   }
 }

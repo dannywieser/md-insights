@@ -1,7 +1,7 @@
 import { render as rtlRender, screen, waitFor } from '@testing-library/react'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import type { ReactElement } from 'react'
-import { configureCacheClient } from '@md-insights/api-client/cache'
+import { configureCacheClient } from '@md-viz/api-client/cache'
 import { App } from '../src/App'
 
 function render(ui: ReactElement) {
@@ -34,7 +34,7 @@ describe('App', () => {
   it('renders the app header', () => {
     render(<App />)
 
-    expect(screen.getByRole('banner')).toHaveTextContent('md-insights')
+    expect(screen.getByRole('banner')).toHaveTextContent('md-viz')
   })
 
   it('shows a card hugging a grid of 5000 notes', () => {

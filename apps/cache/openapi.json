@@ -1,7 +1,7 @@
 {
   "openapi": "3.1.0",
   "info": {
-    "title": "md-insights note cache",
+    "title": "md-viz note cache",
     "version": "0.0.0"
   },
   "components": {

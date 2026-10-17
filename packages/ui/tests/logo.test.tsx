@@ -6,7 +6,7 @@ describe('Logo', () => {
   it('is an image named after the app, with square pixels', () => {
     render(<Logo />)
 
-    const logo = screen.getByRole('img', { name: 'md-insights' })
+    const logo = screen.getByRole('img', { name: 'md-viz' })
     expect(logo).toHaveAttribute('shape-rendering', 'crispEdges')
     // one rect per lit cell plus the tile
     expect(logo.querySelectorAll('rect')).toHaveLength(layoutPixels('.md').rects.length + 1)

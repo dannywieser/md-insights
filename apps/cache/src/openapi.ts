@@ -7,7 +7,7 @@ export function buildOpenApiJson(): string {
   try {
     const document = createApp(store).getOpenAPI31Document({
       openapi: '3.1.0',
-      info: { title: 'md-insights note cache', version: '0.0.0' },
+      info: { title: 'md-viz note cache', version: '0.0.0' },
     })
     return `${JSON.stringify(document, null, 2)}\n`
   } finally {

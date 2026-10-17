@@ -24,7 +24,7 @@ describe('App', () => {
     stubApi()
     render(<App />)
 
-    expect(screen.getByRole('banner')).toHaveTextContent('md-insights')
+    expect(screen.getByRole('banner')).toHaveTextContent('md-viz')
     expect(screen.getByRole('button', { name: 'choose folder' })).toBeEnabled()
   })
 

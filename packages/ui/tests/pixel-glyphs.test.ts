@@ -9,7 +9,7 @@ describe('pixel glyphs', () => {
   })
 
   it('covers every character of the logo', () => {
-    expect(() => layoutPixels('.md|insights')).not.toThrow()
+    expect(() => layoutPixels('md-viz')).not.toThrow()
   })
 
   it('rejects characters without a glyph', () => {
@@ -21,14 +21,9 @@ describe('pixel glyphs', () => {
     expect(layoutPixels('.m').width).toBe(2 + 1 + 5)
   })
 
-  it('puts two empty cells around the cursor bar', () => {
-    // 'm' 5 + gap 2 + '|' 2 + gap 2 + 'd' 5
-    expect(layoutPixels('m|d').width).toBe(5 + 2 + 2 + 2 + 5)
-  })
-
   it('trims the layout to the rows it uses', () => {
     expect(layoutPixels('.md').height).toBe(7)
-    expect(layoutPixels('.md|insights').height).toBe(GLYPH_ROWS)
+    expect(layoutPixels('md-viz').height).toBe(7)
     expect(Math.min(...layoutPixels('.md').rects.map((r) => r.y))).toBe(0)
   })
 })

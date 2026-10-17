@@ -23,8 +23,8 @@ const guidelines = [
   },
   {
     name: 'pixel logo',
-    rule: 'the logo is pixel art from 5 wide bitmap glyphs: no smoothing, no rounding. the dot and the cursor bar use the primary color, the rest the text color. the favicon is a static copy with fixed solarized colors, so update it by hand with the theme.',
-    example: '.md · .md|insights',
+    rule: 'the logo is pixel art from 5 wide bitmap glyphs: no smoothing, no rounding. the dot of the mark and the viz of the wordmark use the primary color, the rest the text color; the wordmark draws each cell as a 2x2 block of small squares. the favicon is a static copy with fixed solarized colors, so update it by hand with the theme.',
+    example: '.md · md-viz',
   },
 ]
 

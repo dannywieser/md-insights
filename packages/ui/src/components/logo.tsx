@@ -14,7 +14,7 @@ function Logo({ cell = 4, className, ...props }: PixelLogoProps) {
     <svg
       data-slot="logo"
       role="img"
-      aria-label="md-insights"
+      aria-label="md-viz"
       viewBox={`0 0 ${TILE} ${TILE}`}
       width={TILE * cell}
       height={TILE * cell}
@@ -30,7 +30,7 @@ function Logo({ cell = 4, className, ...props }: PixelLogoProps) {
           y={y + dy}
           width={1}
           height={1}
-          fill={pixelFill(char, 'var(--background)')}
+          fill={pixelFill(char, 'var(--background)', '.')}
         />
       ))}
     </svg>

@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { AppHeader, Button, Card, CardContent, CardHeader, CardTitle } from '@md-insights/ui'
+import { AppHeader, Button, Card, CardContent, CardHeader, CardTitle } from '@md-viz/ui'
 import type { ScanProgress } from '../../shared/ipc'
 
 export function App() {
@@ -32,7 +32,7 @@ export function App() {
 
   return (
     <div className="flex h-screen flex-col">
-      <AppHeader title="md-insights" />
+      <AppHeader title="md-viz" />
       <main className="flex-1 overflow-auto p-6">
         <Card className="mx-auto max-w-xl">
           <CardHeader>

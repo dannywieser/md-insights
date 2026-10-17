@@ -1,4 +1,4 @@
-import { AppHeader, Button } from '@md-insights/ui'
+import { AppHeader, Button } from '@md-viz/ui'
 import { Components } from './sections/Components'
 import { Grid } from './sections/Grid'
 import { Guidelines } from './sections/Guidelines'
@@ -14,7 +14,7 @@ export function App() {
 
   return (
     <div className="min-h-screen">
-      <AppHeader title="md-insights design" subtitle="design">
+      <AppHeader title="md-viz design" subtitle="design">
         <Button variant="outline" size="sm" onClick={toggle}>
           {theme === 'dark' ? 'switch to light' : 'switch to dark'}
         </Button>

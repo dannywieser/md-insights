@@ -9,7 +9,7 @@
     "types": ["vite/client", "vitest/globals", "@testing-library/jest-dom"],
     "paths": {
       "@/*": ["./src/renderer/src/*"],
-      "@md-insights/ui/*": ["../../packages/ui/src/*"]
+      "@md-viz/ui/*": ["../../packages/ui/src/*"]
     }
   },
   "include": ["src/renderer", "src/shared", "tests/renderer", "tests/setup.ts", "vitest.config.ts"]

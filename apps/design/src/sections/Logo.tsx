@@ -1,5 +1,5 @@
-import { Logo, Wordmark } from '@md-insights/ui'
-import { GLYPHS, layoutPixels } from '@md-insights/ui/lib/pixel-glyphs'
+import { Logo, Wordmark } from '@md-viz/ui'
+import { GLYPHS, layoutPixels } from '@md-viz/ui/lib/pixel-glyphs'
 import { Section } from './Section'
 
 const sizes = [1, 2, 4, 8]
@@ -35,7 +35,7 @@ export function LogoSection() {
   return (
     <Section
       title="logo"
-      description="pixel art .md mark and .md|insights wordmark, built from the same 5 wide bitmap glyphs. the dot and the cursor bar take the primary color."
+      description="pixel art .md mark and md-viz wordmark, built from the same 5 wide bitmap glyphs. the dot of the mark and the viz of the wordmark take the primary color; the wordmark draws each cell as a 2x2 block of small squares."
     >
       <div className="space-y-2">
         <h3 className="text-sm font-bold">wordmark</h3>

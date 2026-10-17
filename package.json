@@ -1,5 +1,5 @@
 {
-  "name": "md-insights",
+  "name": "md-viz",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -8,13 +8,13 @@
     "node": ">=24"
   },
   "scripts": {
-    "dev": "pnpm --filter @md-insights/web dev",
-    "dev:all": "pnpm --parallel --filter @md-insights/cache --filter @md-insights/web dev",
-    "dev:design": "pnpm --filter @md-insights/design dev",
-    "dev:electron": "pnpm --filter @md-insights/electron dev",
-    "dev:cache": "pnpm --filter @md-insights/cache dev",
-    "generate": "pnpm --filter @md-insights/api-client generate",
-    "openapi": "pnpm --filter @md-insights/cache openapi",
+    "dev": "pnpm --filter @md-viz/web dev",
+    "dev:all": "pnpm --parallel --filter @md-viz/cache --filter @md-viz/web dev",
+    "dev:design": "pnpm --filter @md-viz/design dev",
+    "dev:electron": "pnpm --filter @md-viz/electron dev",
+    "dev:cache": "pnpm --filter @md-viz/cache dev",
+    "generate": "pnpm --filter @md-viz/api-client generate",
+    "openapi": "pnpm --filter @md-viz/cache openapi",
     "build": "pnpm generate && pnpm -r build",
     "typecheck": "pnpm generate && pnpm -r typecheck",
     "test": "pnpm generate && pnpm -r test",

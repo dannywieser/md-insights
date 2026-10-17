@@ -1,5 +1,5 @@
 import { useMemo, useState } from 'react'
-import { Button, NOTE_COLORS, NoteGrid, type Note } from '@md-insights/ui'
+import { Button, NOTE_COLORS, NoteGrid, type Note } from '@md-viz/ui'
 import { Section } from './Section'
 
 const presets = [5, 50, 500, 5000]

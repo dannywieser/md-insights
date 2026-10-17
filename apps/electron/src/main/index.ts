@@ -7,7 +7,7 @@ function createWindow(): void {
     width: 960,
     height: 640,
     show: false,
-    title: 'md-insights',
+    title: 'md-viz',
     webPreferences: {
       preload: path.join(import.meta.dirname, '../preload/index.cjs'),
       contextIsolation: true,

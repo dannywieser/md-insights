@@ -3,7 +3,7 @@
   "compilerOptions": {
     "types": ["vitest/globals"],
     "paths": {
-      "@md-insights/ui/*": ["./src/*"]
+      "@md-viz/ui/*": ["./src/*"]
     }
   },
   "include": ["src", "tests"]

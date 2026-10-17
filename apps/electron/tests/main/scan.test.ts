@@ -32,7 +32,7 @@ describe('scanMarkdown', () => {
     let root: string
 
     beforeEach(async () => {
-      root = await mkdtemp(path.join(tmpdir(), 'md-insights-scan-'))
+      root = await mkdtemp(path.join(tmpdir(), 'md-viz-scan-'))
     })
 
     afterEach(async () => {

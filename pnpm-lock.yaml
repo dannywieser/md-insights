@@ -66,7 +66,7 @@ importers:
 
   apps/design:
     dependencies:
-      '@md-insights/ui':
+      '@md-viz/ui':
         specifier: workspace:*
         version: link:../../packages/ui
       react:
@@ -115,7 +115,7 @@ importers:
 
   apps/electron:
     dependencies:
-      '@md-insights/ui':
+      '@md-viz/ui':
         specifier: workspace:*
         version: link:../../packages/ui
       react:
@@ -170,10 +170,10 @@ importers:
 
   apps/web:
     dependencies:
-      '@md-insights/api-client':
+      '@md-viz/api-client':
         specifier: workspace:*
         version: link:../../packages/api-client
-      '@md-insights/ui':
+      '@md-viz/ui':
         specifier: workspace:*
         version: link:../../packages/ui
       '@tanstack/react-query':

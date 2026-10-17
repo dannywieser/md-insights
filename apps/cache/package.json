@@ -1,5 +1,5 @@
 {
-  "name": "@md-insights/cache",
+  "name": "@md-viz/cache",
   "version": "0.0.0",
   "private": true,
   "type": "module",

@@ -4,7 +4,7 @@
     "types": ["vite/client", "vitest/globals", "@testing-library/jest-dom"],
     "paths": {
       "@/*": ["./src/*"],
-      "@md-insights/ui/*": ["../../packages/ui/src/*"]
+      "@md-viz/ui/*": ["../../packages/ui/src/*"]
     }
   },
   "include": ["src", "tests", "vite.config.ts"]

@@ -1,4 +1,4 @@
-# md-insights
+# md-viz
 
 A homelab project that loads markdown notes (a folder of `.md` files or a Bear database) into a cache so their content, relationships and structure can be analyzed.
 
@@ -49,8 +49,8 @@ apps/web/        React + Vite web app
 apps/electron/   Electron app (electron-vite): main, preload, renderer, shared IPC contract
 apps/cache/      Note cache service (Hono + node:sqlite): notes API, see its README
 apps/design/     Design-board viewer for the theme and shared components
-packages/ui/     @md-insights/ui: shared shadcn components, theme and styles
-packages/api-client/  @md-insights/api-client: clients generated from the OpenAPI specs, see its README
+packages/ui/     @md-viz/ui: shared shadcn components, theme and styles
+packages/api-client/  @md-viz/api-client: clients generated from the OpenAPI specs, see its README
 demo/            Small committed set of markdown notes for trying and testing
 ```
 
@@ -58,19 +58,19 @@ Each workspace keeps its tests in a `tests/` folder beside `src/`. New apps go i
 
 ## Shared UI package
 
-`@md-insights/ui` ships TypeScript source with no build step; each consuming Vite app compiles it. The theme (Solarized light and dark CSS variables, Space Mono, square edges, grid paper background) lives in `packages/ui/src/styles/globals.css`. `apps/design` is a design board that displays the theme tokens, shared components and the design guidelines; it holds no tokens of its own.
+`@md-viz/ui` ships TypeScript source with no build step; each consuming Vite app compiles it. The theme (Solarized light and dark CSS variables, Space Mono, square edges, grid paper background) lives in `packages/ui/src/styles/globals.css`. `apps/design` is a design board that displays the theme tokens, shared components and the design guidelines; it holds no tokens of its own.
 
 An app consumes it by:
 
-1. Adding the dependency: `"@md-insights/ui": "workspace:*"`.
+1. Adding the dependency: `"@md-viz/ui": "workspace:*"`.
 2. Importing the styles and telling Tailwind to scan the package in its CSS:
 
    ```css
-   @import '@md-insights/ui/globals.css';
+   @import '@md-viz/ui/globals.css';
    @source '../../../packages/ui/src';
    ```
 
-3. Importing components: `import { Button, Card } from '@md-insights/ui'`.
+3. Importing components: `import { Button, Card } from '@md-viz/ui'`.
 
 ### Adding shadcn components
 

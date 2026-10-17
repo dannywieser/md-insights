@@ -1,4 +1,4 @@
-@import '@md-insights/ui/globals.css';
+@import '@md-viz/ui/globals.css';
 
 /* Tailwind must scan the shared UI package for class names. */
 @source '../../../../../packages/ui/src';

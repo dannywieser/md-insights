@@ -48,12 +48,12 @@ describe('App', () => {
     await userEvent.click(screen.getByRole('button', { name: 'switch to dark' }))
 
     expect(document.documentElement).toHaveClass('dark')
-    expect(localStorage.getItem('md-insights-design-theme')).toBe('dark')
+    expect(localStorage.getItem('md-viz-design-theme')).toBe('dark')
 
     await userEvent.click(screen.getByRole('button', { name: 'switch to light' }))
 
     expect(document.documentElement).not.toHaveClass('dark')
-    expect(localStorage.getItem('md-insights-design-theme')).toBe('light')
+    expect(localStorage.getItem('md-viz-design-theme')).toBe('light')
   })
 
   it('follows the system color scheme when nothing is stored', () => {

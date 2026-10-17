@@ -1,7 +1,7 @@
 import { useEffect, useMemo } from 'react'
 import { useQuery } from '@tanstack/react-query'
-import { listNotesOptions } from '@md-insights/api-client/cache'
-import { AppHeader, Card, NoteGrid, makeFakeNotes } from '@md-insights/ui'
+import { listNotesOptions } from '@md-viz/api-client/cache'
+import { AppHeader, Card, NoteGrid, makeFakeNotes } from '@md-viz/ui'
 
 const FAKE_NOTE_COUNT = 5000
 // card padding (p-4) plus its 1px border.
@@ -20,7 +20,7 @@ export function App() {
 
   return (
     <div className="flex h-screen flex-col">
-      <AppHeader title="md-insights" />
+      <AppHeader title="md-viz" />
       <main className="min-h-0 flex-1 p-6">
         <NoteGrid
           notes={notes}
